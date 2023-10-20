@@ -1,0 +1,19 @@
+
+.item-title
+{
+    height: 48px;
+}
+.hlink:hover {
+    background: blue;
+}
+.grid-item:hover {
+    background-color: aqua;
+}
+#add-card
+{
+    border: none; 
+    background: transparent; 
+    background-color: antiquewhite;
+    border: 2px solid blue;
+    border-radius: 5px;
+}
