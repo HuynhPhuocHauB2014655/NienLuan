@@ -35,7 +35,6 @@ try {
 }
 ?>
 <body>
-    <h1>Nhanasdahskjdhakssdkas</h1>
 <?php include_once __DIR__ . '/../general/nav.php' ?>
         <h3 class="text-center py-3 border text-info"><?= $msg ?></h3>   
         <div class="">
