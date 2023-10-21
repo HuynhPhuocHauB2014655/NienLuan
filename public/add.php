@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../general/db_connect.php';
+require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
 define('TITLE', 'Thêm sản phẩm');
 

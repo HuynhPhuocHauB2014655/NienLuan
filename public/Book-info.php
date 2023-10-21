@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../general/db_connect.php';
+require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
 define('TITLE', 'Chi tiết sản phẩm');
 $query = 'CALL TTBook(?)';
@@ -7,8 +7,6 @@ $stmt = $pdo->prepare($query);
 $stmt->execute([$_GET['MaSach']]);
 $info = $stmt->fetch();
 ?>
-<body>
-
 <?php include_once __DIR__ . '/../general/nav.php' ?>
     <div class="row mt-5 border p-2">
         <div class="col-sm-5 text-center">

@@ -1,46 +1,57 @@
 <?php
-require_once __DIR__ . '/../general/db_connect.php';
+require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
-$query = 'SELECT MaSach,TenSach,Anh,Gia from Sach where TenSach like "%"?"%"';
+$query = 'SELECT * from dienthoai where tensp like "%"?"%"';
 $msg = 'Kết quả tìm kiếm';
 try {
     $stmt = $pdo->prepare($query);
     $stmt->execute([$_POST['search']]);
-    $row = $stmt->fetchAll();
+    $rs = $stmt->fetchAll();
 } catch (PDOException $e){
     echo '<h4 class="text-center">Lỗi truy vấn dữ liệu</h4>';
 }
 ?>
-<body>
+
 <?php include_once __DIR__ . '/../general/nav.php' ?>
         <h3 class="text-center py-3 border text-info"><?= $msg ?></h3>
-        <?php if(!empty($row)) : ?>   
-        <div class="grid-conteiner">
-            <?php foreach ($row as $row) : ?>
-                <div class="grid-item border m-1 rounded">
-                    <input type="hidden" name="MaSach" value="<?= $htmlspecialchars($row["MaSach"]); ?>">
-                    <img class="py-2 item-img" src="./images/<?= $htmlspecialchars($row["Anh"]); ?>" alt="">
-                    <p class="fs-7 item-title"><?= $htmlspecialchars($row['TenSach']); ?><p>
-                    <p class="item-prices text-danger"><?= $htmlspecialchars($row['Gia']); ?> đ</p>
-                    <?php if(isset($_SESSION['user']) && $_SESSION['user'] == "admin") : ?>
-                        <div class="row mb-2">
-                            <div class="col-sm">
-                                <a href="edit.php?MaSach=<?=$row['MaSach'];?>" class="btn btn-primary">Sửa</a>
-                            </div>
-                            <form class="form-inline col-sm" action="delete.php" method="POST">
-                                <input type="hidden" name="id" value="<?= $row['MaSach'] ?>">
-                                <button type="submit" class="btn btn-xs btn-danger" name="delete">
-                                    Xóa
-                                </button>
-                            </form>
-                        </div>  
-                    <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
-        </div>
-        <?php else : ?>
-            <h4 class="text-center py-3">Không tìm thấy sách!</h4>
-        <?php endif; ?>
+        <?php if (!empty($rs)) : ?>
+        <?php $n = ceil(count($rs)/4); 
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([$_POST['search']]);
+            for ($j=0;$j<$n;$j++): ?>
+            <div class="row">
+                <?php for ($k=0;$k<4;$k++) : ?>
+                    <?php $col = $stmt->fetch(); ?>
+                    <?php if($col) : ?>
+                    <div class="item col-sm border m-1">
+                            <input type="hidden" name="MaSach" value="<?= $htmlspecialchars($col["masp"]); ?>">
+                            <img class="py-2 item-img img-fluid" style="max-height: 300px;" src="" alt="">
+                            <p class="fs-7 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
+                            <p class=""><?= $htmlspecialchars($col['tonkho']); ?> đ</p>
+                            <p class="item-prices text-danger"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
+                            <?php if(isset($_SESSION['user']) && $_SESSION['user'] == "admin") : ?>
+                                <div class="row mb-2">
+                                    <div class="col-sm">
+                                        <a href="edit.php?masp=<?=$col['masp'];?>" class="btn btn-primary">Sửa</a>
+                                    </div>
+                                    <form class="form-inline col-sm" action="delete.php" method="POST">
+                                            <input type="hidden" name="id" value="<?= $col['masp'] ?>">
+                                            <button type="submit" class="btn btn-xs btn-danger" name="delete">
+                                            Xóa
+                                            </button>
+                                    </form>
+                                </div>   
+                            <?php endif; ?>
+                    </div>
+                <?php else : ?>
+                    <div class="item-empty col-sm m-1"></div>
+                <?php endif; ?>
+                <?php endfor; ?>   
+            </div>
+            <?php endfor; ?>
+            <?php else:  ?>
+                <h5 class="text-center p-5">Không có kết quả nào phù hợp</h5>
+            <?php endif; ?>
         <div id="delete-confirm" class="modal fade" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">

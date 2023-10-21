@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
 
 ?>
 <?php include_once __DIR__ . '/../general/nav.php' ?>
-<body class="container">
+<div class="container">
     <h3 class="text-center border border-3 border-primary py-3 m-3">Cập nhật thông tin sản phẩm</h3>
     <div class="d-flex justify-content-center">
         <form method="post" class="row border border-3 p-3 my-5">
@@ -59,5 +59,4 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             <button class="btn btn-primary" type="submit">Thêm sản phẩm</button>
         </form>
     </div>
-</body>
 <?php include_once __DIR__ . '/../general/footer.php';

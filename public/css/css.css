@@ -1,0 +1,122 @@
+.header-container {
+    background-color: #B6FFFA;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+}
+.logo {
+    text-align: center;
+    margin-top: 15px;
+}
+.header-menu {
+   display: flex;
+   padding: 0;
+   margin-top: 15px;
+   justify-content: end;
+}
+.header-menu li {
+    text-align: center;
+    list-style: none;
+}
+.header-menu li a {
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+.header-menu li a:hover{
+    border-bottom: 2px solid #bec5cf;
+}
+.main-menu {
+    background-color: #98E4FF;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+.menu {
+    display: flex;
+    justify-items: center;
+    margin: 0;
+    padding: 0;
+}
+.menu li {
+    list-style: none;
+    position: relative;
+}
+.menu li a:hover {
+    background: #80B3FF;
+}
+.menu li>a {
+    display: block;
+    padding: 10px 20px;
+    color: black;
+    text-decoration: none;
+}
+.menu li:hover>ul.sub-menu {
+    display: flex;
+}
+.menu li ul.sub-menu {
+    padding: 10px 0;
+    position: absolute;
+    background: #80B3FF;
+    display: none;
+}
+.menu li ul.sub-menu li a{
+    padding: 7px 20px;
+    margin: 0 2px;
+    text-align: center;
+}
+.menu li ul.sub-menu li a:hover {
+    border-bottom: 2px solid red;
+}
+.footer {
+    background: #687EFF;
+}
+.item:hover {
+    background: #f0e6e8;
+}
+
+.filter {
+    display: flex;
+    margin: 20px 0;
+    padding: 0;
+}
+.filter>li {
+    list-style: none;
+    position: relative;
+    border: 2px solid black;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+.filter li:hover {
+    background: #ccf7ff;
+}
+.filter>li>a {
+    display: block;
+    padding: 10px 20px;
+    color: black;
+    text-decoration: none;
+    font-size: small;
+}
+.filter li ul.sub-filter {
+    margin: 0;
+    padding: 10px 0;
+    position: absolute;
+    display: none;
+}
+
+ul.sub-filter li {
+    list-style: none;
+    position: relative;
+    border: 1px solid black;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+
+ul.sub-filter li a {
+    padding: 5px 5px;
+    color: black;
+    text-decoration: none;
+    font-size: small;
+}
+.filter li:hover>ul.sub-filter {
+    display: flex;
+}
