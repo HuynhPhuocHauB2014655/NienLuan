@@ -21,13 +21,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         {
             $_SESSION['user'] = $_POST['username'];
             $loggedin = true;
-        }
+            if(isset($_SESSION['guest']) && !($_SESSION['user'] == 'admin'))
+            {
+                $query = 'SELECT * from giohang where magh=?';
+                $query1 = 'SELECT * from giohang where magh=?';
+                $stmt = $pdo->prepare($query);
+                $stmt->execute([$_SESSION['guest']]);
+                $stmt1 = $pdo->prepare($query1);
+                $stmt1->execute([$_SESSION['user']]);
+                $ghguest = $stmt->fetchAll();
+                $ghuser = $stmt1->fetchAll();
+                if(!empty($ghguest))
+                {
+                  $sql = 'INSERT into giohang set';
+                  $isexit = 0;
+                  foreach ($ghguest as $ghguest)
+                  {
+                    foreach ($ghuser as $ghuser)
+                    {
+                      if($ghguest['masp'] == $ghuser['masp'])
+                      {
+                        $isexit = 1;
+                      }
+                    }
+                    if(!$isexit)
+                    {
+                      $query2 = 'INSERT into giohang value (?,?)';
+                      $query3 = 'DELETE from giohang where magh=?';
+                      $stmt2 = $pdo->prepare($query2);
+                      $stmt2->execute([$_SESSION['user'],$ghguest['masp']]);
+                      $stmt3 = $pdo->prepare($query3);
+                      $stmt3->execute([$_SESSION['guest']]);
+                    }
+                  }
+                }
+               unset($_SESSION['guest']); 
+            }
         else{
             echo '<h3 class="text-center bg-danger">Tên đăng nhập hoặc mật khẩu không khớp!</h3>';
         }
     } else {
-        echo '<p class="text-center bg-danger">Hãy đảm bảo rằng bạn cung cấp đầy đủ địa chỉ email và mật khẩu!</p>';
+        echo '<p class="text-center bg-danger">Hãy đảm bảo rằng bạn cung cấp đầy đủ địa chỉ tên đăng nhập và mật khẩu!</p>';
     }
+}
 }
 
 if ($loggedin) {
@@ -61,6 +97,8 @@ if ($loggedin) {
       </div>
     </div>
 <?php include_once __DIR__ . '/../general/footer.php'; ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script type="text/javascript">
 			$(document).ready(function (){
 				$('#signupForm').validate({
@@ -105,4 +143,4 @@ if ($loggedin) {
 					},
 				});
 			});
-		</script>
+	</script>

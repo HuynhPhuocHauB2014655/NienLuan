@@ -8,6 +8,27 @@
         unset($_SESSION['msg']);
     }
     $htmlspecialchars = 'htmlspecialchars';
+    if(!isset($_SESSION['user']) && !isset($_SESSION['guest']))
+    {
+        if(!empty($_SERVER['HTTP_CLIENT_IP'])) {  
+            $ip = $_SERVER['HTTP_CLIENT_IP'];  
+        }  
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {  
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+        }  
+        else{  
+            $ip = $_SERVER['REMOTE_ADDR'];  
+        }
+        $_SESSION['guest'] = $ip;
+        $query = 'INSERT INTO khachhang value (?,?,?,?,?,?,?,?)';
+            try {
+                $stmt1 = $pdo->prepare($query);
+                $stmt1->execute([$_SESSION['guest'],"123456","guest","","","","",$_SESSION['guest']]);
+            } catch (PDOException $e)
+            {
+                echo "Lỗi truy vấn dữ liệu 1";
+            }
+    }
 ?>
 <!doctype html>
 <html lang="en">
@@ -15,6 +36,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/css.css">
     <link rel="shortcut icon" type="image/jpg" href="">
     <title><?php
@@ -34,28 +56,24 @@
         <div class="col-sm"></div>
         <div class="col-sm-3">
         <?php 
-            if(isset($_SESSION['user'])) 
-            {
-                if($_SESSION['user'] == "admin")
-                {
-                    echo '<ul class="header-menu">
-                    <li class="nav-item"><a href="add.php">Thêm sách</a></li>
-                    <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>';
-                }
-                else{
-                    echo '<ul class=" header-menu">
-                <li class="nav-item"><a href="#">Tài khoản</a></li>
-                <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>';
-                }
-                echo '</ul>';
-            }
-            else
-            {
-                echo '<ul class="header-menu">
-                <li class="nav-item"><a href="login.php">Đăng Nhập</a></li>
-                <li class="nav-item"><a href="register.php">Đăng ký</a></li>
-                </ul>';
-            } 
-    ?>
+            if(isset($_SESSION['user'])): ?>
+                <?php if($_SESSION['user'] == "admin"): ?>
+                    <ul class="header-menu">
+                    <li class="nav-item"><a href="add.php">Thêm sản phẩm</a></li>
+                    <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>
+                <?php else : ?>
+                <ul class=" header-menu">
+                    <li class="nav-item"><a href="card.php?username=<?=$_SESSION['user']; ?>"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li class="nav-item"><a href="#">Tài khoản</a></li>
+                    <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>
+                </ul>
+                <?php endif; ?>
+            <?php else : ?>
+                <ul class="header-menu">
+                    <li class="nav-item"><a href="card.php?username=<?=$_SESSION['guest']; ?>"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li class="nav-item"><a href="login.php">Đăng Nhập</a></li>
+                    <li class="nav-item"><a href="register.php">Đăng ký</a></li>
+                </ul>
+            <?php endif; ?>
     </div>
 </nav>

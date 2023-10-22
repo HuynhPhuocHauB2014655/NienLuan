@@ -5,44 +5,63 @@ define('TITLE', 'Thêm sản phẩm');
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-    $query = 'INSERT INTO Sach value (?,?,?,?,?,?,?,?,?)';
+    $query = 'INSERT INTO dienthoai value (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
     $stmt = $pdo->prepare($query);
-    $stmt->execute(["",$_POST['TenSach'],$_POST['Anh'],$_POST['SoTrang'],$_POST['Gia'],$_POST['TacGia'],$_POST['HinhThuc'],$_POST['MaNXB'],$_POST['MaLoai']]);
+    $stmt->execute([$_POST['masp'],$_POST['tensp'],$_POST['ngayramat'],$_POST['math'],$_POST['magia'],
+    $_POST['maRAM'],$_POST['maROM'],$_POST['CPU'],$_POST['hedieuhanh'],$_POST['camera'],$_POST['gia'],$_POST['tonkho'],
+    $_POST['congketnoi'],$_POST['jacktainghe'],$_POST['loaipin'],$_POST['dungluongpin'],$_POST['thietke'],$_POST['kichthuoc'],$_POST['anh']]);
     $_SESSION['msg'] = 'Thêm sản phẩm thành công!';
     header('Location: index.php');
 }
 ?>
 <?php include_once __DIR__ . '/../general/nav.php' ?>
-<body class="container">
-    <h3 class="text-center border border-3 border-primary py-3 m-3">Cập nhật thông tin sản phẩm</h3>
+<div class="container">
+    <h3 class="text-center border border-3 border-primary py-3 m-3 rounded">Thêm sản phẩm</h3>
     <div class="d-flex justify-content-center">
-        <form method="post" class="row border border-3 p-3 my-5">
+        <form method="post" class="row border border-3 p-3 my-5 rounded">
             <div class="col-sm">
-            <label for="tenSach" class="form-label">Tên Sách</label><br>
-            <input type="text" class="form-control" name="TenSach"><br/>
-            <label class="form-label" for="anh">Tên Ảnh</label><br />
-            <input class="form-control" type="text" name="Anh"><br>
-            <label class="form-label" for="soTrang">Số Trang</label><br/>
-            <input class="form-control" type="number" name="SoTrang" min="1"/><br />
+            <label for="masp" class="form-label">Mã điện thoại: </label><br>
+            <input type="text" class="form-control" name="masp" ><br/>
+            <label for="tensp" class="form-label">Tên điện thoại: </label><br>
+            <input type="text" class="form-control" name="tensp" ><br/>
+            <label class="form-label" for="anh">Tên Ảnh: </label><br />
+            <input class="form-control" type="text" name="anh" "><br>
+            <label for="ngayramat" class="form-label">Ngày ra mắt: </label><br>
+            <input type="text" class="form-control" name="ngayramat"><br/>
+            <label for="magia" class="form-label">Phân khúc giá:</label><br>
+            <input type="text" class="form-control" name="magia"><br/>
+            <label for="magth" class="form-label">Mã thương hiệu:</label><br>
+            <input type="text" class="form-control" name="math"><br/>
+            <label for="maRAM" class="form-label">mã RAM: </label><br>
+            <input type="text" class="form-control" name="maRAM"><br/>
+            <label for="maROM" class="form-label">Mã ROM: </label><br>
+            <input type="text" class="form-control" name="maROM"><br/>
+            <label for="CPU" class="form-label">Chíp: </label><br>
+            <input type="text" class="form-control" name="CPU"><br/>
+            </div>
+            <div class="col-sm">
+            <label for="hedieuhanh" class="form-label">Hệ điều hành: </label><br>
+            <input type="text" class="form-control" name="hedieuhanh"><br/>
+            <label for="camera" class="form-label">Camera: </label><br>
+            <input type="text" class="form-control" name="camera"><br/>
             <label class="form-label" for="gia">Giá (VND)</label><br/>
-            <input class="form-control" type="number" name="Gia" min="0"/><br />
+            <input class="form-control" type="number" name="gia" min="0"/><br />
+            <label for="congketnoi" class="form-label">Cổng kết nối: </label><br>
+            <input type="text" class="form-control" name="congketnoi"><br/>
+            <label for="jactaine" class="form-label">Jack tai nghe: </label><br>
+            <input type="text" class="form-control" name="jacktainghe"><br/>
+            <label for="loaipin" class="form-label">Loại pin: </label><br>
+            <input type="text" class="form-control" name="loaipin"><br/>
+            <label for="dungluongpin" class="form-label">Dung lượng pin: </label><br>
+            <input type="text" class="form-control" name="dungluongpin"><br/>
+            <label for="thietke" class="form-label">Thiết kế: </label><br>
+            <input type="text" class="form-control" name="thietke"><br/>
+            <label for="tonkho" class="form-label">Tồn kho: </label><br>
+            <input type="text" class="form-control" name="tonkho"><br/>
             </div>
-            <div class="col-sm">
-            <label class="form-label" for="tacGia">Tác Giả</label><br />
-            <input class="form-control" type="text" name="TacGia"/><br />
-            <label class="form-label" for="HinhThuc">Hình Thức</label><br />
-            <select class="form-select" name="HinhThuc">
-                <option value="Bìa mềm">Bìa mềm</option>
-                <option value="Bìa cứng">Bìa cứng</option>
-                <option value="Bộ hộp">Bộ hộp</option>
-            </select><br />
-            <label class="form-label" for="MaNXB"">Mã Nhà Xuất Bản</label><br />
-            <input class="form-control" type="text" name="MaNXB"/><br />
-            <label class="form-label" for="MaLoai">Mã Loại Sách</label><br />
-            <input class="form-control" type="text" name="MaLoai"/><br />
-            </div>
-            <button class="btn btn-primary" type="submit">Thêm sản phẩm</button>
+            <label for="kichthuoc" class="form-label">Kích Thước: </label><br>
+            <input type="text" class="form-control" name="kichthuoc"><br/>
+            <button class="btn btn-primary mt-2" type="submit">Thêm sản phẩm</button>
         </form>
     </div>
-</body>
 <?php include_once __DIR__ . '/../general/footer.php';

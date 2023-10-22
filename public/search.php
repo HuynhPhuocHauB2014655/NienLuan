@@ -25,7 +25,7 @@ try {
                     <?php if($col) : ?>
                     <div class="item col-sm border m-1">
                             <input type="hidden" name="MaSach" value="<?= $htmlspecialchars($col["masp"]); ?>">
-                            <img class="py-2 item-img img-fluid" style="max-height: 300px;" src="" alt="">
+                            <img class="py-2 item-img img-fluid" style="max-height: 300px;" src="images/<?=$htmlspecialchars($col["anh"]);?>" alt="">
                             <p class="fs-7 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
                             <p class=""><?= $htmlspecialchars($col['tonkho']); ?> đ</p>
                             <p class="item-prices text-danger"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
@@ -76,7 +76,7 @@ try {
                 e.preventDefault()
                 const book = $(this);
                 const id = book.parent().children()[0].value;
-                window.location.href = `book-info.php?MaSach=${id}`;
+                window.location.href = `phone-info.php?masp=${id}`;
             });
             $('button[name="delete"]').on('click', function(e){
                 e.preventDefault();

@@ -10,16 +10,16 @@ if(!isset($_SESSION['user']) || $_SESSION['user'] != 'admin')
 }
 else
 {
-    $query1 = 'SELECT MaSach from sach where MaSach=?';
-    $query2 = 'DELETE from Sach where MaSach=?';
+    $query1 = 'SELECT masp from dienthoai where masp=?';
+    $query2 = 'DELETE from dienthoai where masp=?';
     try {
         $stmt = $pdo->prepare($query1);
-        $stmt->execute([$_POST['id']]);
+        $stmt->execute([$_POST['masp']]);
         $row = $stmt->fetch();
         if(!empty($row))
         {
             $stmt = $pdo->prepare($query2);
-            $stmt->execute([$_POST['id']]);
+            $stmt->execute([$_POST['masp']]);
             $_SESSION['msg'] = 'Sản phẩm đã xóa thành công!';
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }

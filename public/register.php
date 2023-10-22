@@ -15,10 +15,10 @@
         }
         if(empty($row))
         {
-            $query = 'INSERT INTO khachhang value (?,?,?,?,?,?,?)';
+            $query = 'INSERT INTO khachhang value (?,?,?,?,?,?,?,?)';
             try {
                 $stmt1= $pdo->prepare($query);
-                $stmt1->execute([$_POST['username'],$_POST['password'],$_POST['hoten'],$_POST['ngaysinh'],$_POST['sdt'],$_POST['diachi'],""]);
+                $stmt1->execute([$_POST['username'],$_POST['password'],$_POST['hoten'],$_POST['ngaysinh'],$_POST['sdt'],$_POST['diachi'],"",$_POST['username']]);
                 $_SESSION['flash_message'] = '<h3 class="text-center bg-success mt-2 py-1">Bạn đã đăng ký thành công</h3>';
                 header('location: login.php');
             } catch (PDOException $e)
@@ -66,6 +66,8 @@
             </form>
         </div>
 <?php include_once __DIR__ . '/../general/footer.php'; ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function (){
     $('#regiser-form').validate({
