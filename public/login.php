@@ -55,7 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                   }
                 }
-               unset($_SESSION['guest']); 
+              $sql = 'DELETE from khachhang where username=?';
+              $stmt4 = $pdo->prepare($sql);
+              $stmt4->execute([$_SESSION['guest']]);
+              unset($_SESSION['guest']); 
             }
         else{
             echo '<h3 class="text-center bg-danger">Tên đăng nhập hoặc mật khẩu không khớp!</h3>';
