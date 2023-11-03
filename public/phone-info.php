@@ -51,7 +51,7 @@ $rs = $stmt->fetch();
             </tr>
             <tr>
                 <td>Chip: </td>
-                <td><?=$rs['CPU']?></td>
+                <td><?=$rs['cpu']?></td>
             </tr>
             <tr>
                 <td>RAM: </td>
@@ -87,7 +87,7 @@ $rs = $stmt->fetch();
     </tr>
     <tr>
         <td>CPU: </td>
-        <td class="text-end"><?=$rs['CPU']?></td>
+        <td class="text-end"><?=$rs['cpu']?></td>
     </tr>
     <tr>
         <th colspan="2">Bộ nhớ và lưu trữ</th>

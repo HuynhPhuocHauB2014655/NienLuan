@@ -23,8 +23,8 @@ $stmt_thequocte->execute([$_SESSION['user']]);
     <h1 class="text-center">THÔNG TIN KHÁCH HÀNG</h1>
     <hr/>
     <div class="text-end d-flex justify-content-end mb-2">
-        <a class="btn btn-sm btn-outline-primary float-right me-2" href="#">Chỉnh sửa thông tin cá nhân</a> 
-        <a class="btn btn-sm btn-outline-primary float-right" href="#">Đổi mật khẩu</a></div>
+        <a class="btn btn-sm btn-outline-primary float-right me-2" href="edit-user.php">Chỉnh sửa thông tin cá nhân</a> 
+        <a class="btn btn-sm btn-outline-primary float-right" href="edit-password.php">Đổi mật khẩu</a></div>
     <table class="table table-bordered text-center">
         <thead>
             <tr>
