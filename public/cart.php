@@ -29,7 +29,7 @@ $rs = $stmt->fetchAll();
         <td class="px-5 py-5">
             <?=$htmlspecialchars(number_format($tong,0,",","."));?> đ
         </td>
-        <td colspan="2" class="px-5 py-5 text-center"><a class="btn btn-primary" href="#">Thanh toán</a></td>
+        <td colspan="2" class="px-5 py-5 text-center"><form action="payment.php" method="post"><button class="btn btn-outline-primary" type="submit">Thanh toán</button></form></td>
     </tr>
 </table>
 <?php else : ?>

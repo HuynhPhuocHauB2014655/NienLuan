@@ -1,4 +1,5 @@
 <?php
+define('TITLE', 'Thông tin sản phẩm'); 
 require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
 
@@ -21,7 +22,7 @@ $rs = $stmt->fetch();
             <input type="hidden" name="masp" id="masp" value="<?= $rs['masp']; ?>">
             <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
             <?php if(isset($_SESSION['user'])) : ?>
-            <a href="#" class="btn btn-danger">Mua Ngay</a>
+            <a href="payment.php?masp=<?= $rs['masp']; ?>" class="btn btn-danger">Mua Ngay</a>
         <?php endif; ?>
         </form>
     </div>
