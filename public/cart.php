@@ -20,7 +20,7 @@ $rs = $stmt->fetchAll();
         <td scope="row" class="px-5 py-5"><img src="images/<?=$rs['anh']?>" alt="" width="100" height="100"></td>
         <td scope="row" class="px-5 py-5"><?=$rs['tensp']?></td>
         <td scope="row" class="px-5 py-5"><?=$htmlspecialchars(number_format($rs['gia'],0,",","."));?>đ</td>
-        <td class="px-5 py-5"><a class="btn btn-danger" href="delete-card.php?masp=<?=$rs['masp']?>">Xóa</a></td>
+        <td class="px-5 py-5"><a class="btn btn-danger" href="delete-cart.php?masp=<?=$rs['masp']?>">Xóa</a></td>
         <?php $tong+=$rs['gia']; ?>
     </tr>
 <?php endforeach; ?>

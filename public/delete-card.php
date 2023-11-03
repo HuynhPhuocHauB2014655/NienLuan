@@ -1,27 +1,21 @@
 <?php
-require_once __DIR__ . '/../general/connect.php';
+define('TITLE', 'Xóa thẻ thanh toán');
 include_once __DIR__ . '/../general/header.php';
-
-$query = 'SELECT * from giohang where magh=? and masp=?';
-$stmt = $pdo->prepare($query);
-if(isset($_SESSION['user'])) {
-    $stmt->execute([$_SESSION['user'], $_GET['masp']]);
-}
-else{
-    $stmt->execute([$_SESSION['guest'], $_GET['masp']]);
-}
-$rs = $stmt->fetch();
-if($rs)
+require_once __DIR__ . '/../general/connect.php';
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-    $query = 'DELETE from giohang where magh=? and masp=?';
-    $stmt = $pdo->prepare($query);
-    if(isset($_SESSION['user'])) {
-        $stmt->execute([$_SESSION['user'], $_GET['masp']]);
+    if($_POST['type'] == 'thenoidia')
+    {
+        $sql = 'DELETE from thenoidia where sothe=? and username=?';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$_POST['sothe'], $_SESSION['user']]);
     }
     else{
-        $stmt->execute([$_SESSION['guest'], $_GET['masp']]);
+        $sql = 'DELETE from thequocte where sothe=? and username=?';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$_POST['sothe'], $_SESSION['user']]);
     }
-    $_SESSION['msg'] = "Xóa sản phẩm thành công!";
-    header('Location:' . $_SERVER['HTTP_REFERER']);
+    $_SESSION['msg'] = 'Xoá thẻ thành công!';
+    header('location: user.php');
     exit();
 }

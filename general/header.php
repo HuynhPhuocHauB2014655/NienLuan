@@ -1,10 +1,11 @@
 <?php
+require_once __DIR__ . '/../general/connect.php';
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
     if(isset($_SESSION['msg']))
     {
-        echo '<h5 class="text-center bg-success">' . $_SESSION['msg'] . '</h5>';
+        echo '<script>alert("'.$_SESSION['msg'] . '");</script>';
         unset($_SESSION['msg']);
     }
     $htmlspecialchars = 'htmlspecialchars';
@@ -29,6 +30,20 @@
                 echo "Lỗi truy vấn dữ liệu 1";
             }
     }
+    if(isset($_SESSION['user']) || isset($_SESSION['guest']))
+    {
+        $sql_header= 'SELECT count(*) as sogh from giohang where magh=?';
+        $sql_header_stmt = $pdo->prepare($sql_header);
+        if(isset($_SESSION['user']))
+        {
+            $sql_header_stmt ->execute([$_SESSION["user"]]);
+        }
+        else
+        {
+            $sql_header_stmt ->execute([$_SESSION["guest"]]);
+        }
+        $header_rs = $sql_header_stmt->fetch();
+    }
 ?>
 <!doctype html>
 <html lang="en">
@@ -43,7 +58,7 @@
             if (defined('TITLE')) {
                 echo TITLE;
             } else {
-                echo 'H & N';
+                echo 'H&N';
             }
             ?></title>
 </head>
@@ -51,7 +66,7 @@
 <div class="container"> 
     <nav class="header-container row">
         <div class="logo col-sm-1">
-            <a href="index.php">LOGO</a>
+            <a href="index.php"><img class="img-fluid" src="images/logo.png" alt="logo"></a>
         </div>
         <div class="col-sm"></div>
         <div class="col-sm-3">
@@ -63,14 +78,16 @@
                     <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>
                 <?php else : ?>
                 <ul class=" header-menu">
-                    <li class="nav-item"><a href="card.php?username=<?=$_SESSION['user']; ?>"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <li class="nav-item"><a href="#">Tài khoản</a></li>
+                    <li class="nav-item position-relative"><a href="cart.php?username=<?=$_SESSION['user']; ?>"><i class="fa-solid fa-cart-shopping"></i></a>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><?= $header_rs['sogh'] ?></span></li>
+                    <li class="nav-item"><a href="user.php">Tài khoản</a></li>
                     <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>
                 </ul>
                 <?php endif; ?>
             <?php else : ?>
                 <ul class="header-menu">
-                    <li class="nav-item"><a href="card.php?username=<?=$_SESSION['guest']; ?>"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li class="nav-item position-relative"><a href="cart.php?username=<?=$_SESSION['guest']; ?>"><i class="fa-solid fa-cart-shopping"></i></a>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><?= $header_rs['sogh'] ?></span></li>
                     <li class="nav-item"><a href="login.php">Đăng Nhập</a></li>
                     <li class="nav-item"><a href="register.php">Đăng ký</a></li>
                 </ul>

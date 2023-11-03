@@ -17,7 +17,7 @@ $rs = $stmt->fetch();
 <div class="row border rounded p-3">
     <div class="col-sm-4 text-center mt-2">
         <img class="img-fluid" src="images/<?= $rs['anh']; ?>" alt="" style="width: 300px; max-height: 300px">
-        <form action="addcard.php" method="post" class="mt-5">
+        <form action="add-cart.php" method="post" class="mt-5">
             <input type="hidden" name="masp" id="masp" value="<?= $rs['masp']; ?>">
             <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
             <?php if(isset($_SESSION['user'])) : ?>

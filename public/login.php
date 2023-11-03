@@ -60,13 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               $stmt4->execute([$_SESSION['guest']]);
               unset($_SESSION['guest']); 
             }
+        }
         else{
             echo '<h3 class="text-center bg-danger">Tên đăng nhập hoặc mật khẩu không khớp!</h3>';
         }
     } else {
         echo '<p class="text-center bg-danger">Hãy đảm bảo rằng bạn cung cấp đầy đủ địa chỉ tên đăng nhập và mật khẩu!</p>';
     }
-}
 }
 
 if ($loggedin) {
