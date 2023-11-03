@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 $stmt = $pdo->prepare($query);
                 $stmt->execute([$_POST['sothe'],$_POST['cvc_cvv'],$_POST['tenchuthe'],$_POST['diachi'],$_POST['thanhpho'],$_SESSION['user']]);
                 $_SESSION['msg'] = 'Thêm thẻ thành công!';
-                header('Location: user.php');
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
                 exit();
             }
         }

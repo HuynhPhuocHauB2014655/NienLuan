@@ -91,17 +91,35 @@ $tongtien = 0;
         </table>
     <?php endif; ?>
     <h3>Hình thức thanh toán</h3>
-    <select id="PaymentType" class="form-control mb-3">
-        <option selected>Chọn hình thức thanh toán</option>
-        <option value="1">Thanh toán khi nhận hàng</option>
-        <option value="2">Thanh toán bằng thẻ ngân hàng</option>
-    </select>
-    <div id="payment_type_2">
-    <select class="form-control mb-3">
-    </select>
-    </div>
-    <form method="post">
-        <button type="submit" class="btn btn-success mt-2">Xác Nhận Thanh Toán</button>
+    <form action="order.php" method="post">
+        <?php if(isset($_GET['masp'])) : ?>
+            <input type="hidden" name="masp" value="<?=$_GET['masp']?>">
+        <?php endif; ?>
+        <select id="PaymentType" name="paymentType" class="form-control mb-3">
+            <option value="1">Thanh toán khi nhận hàng</option>
+            <option value="2">Thanh toán bằng thẻ ngân hàng</option>
+        </select>
+        <div style="display:none;" id="payment_type_2">
+        <a class="btn btn-info my-2" href="add-card.php">Thêm thẻ thanh toán</a>
+                <?php if(empty($thenoidia) && empty($thequocte)) : ?>
+                   <p>Không có thẻ nào</p>
+                <?php else : ?>
+                <select name="the" class="form-control mb-3">
+                    <option value="0" selected>Vui lòng chọn thẻ</option>
+                    <?php if (!empty($thenoidia)) : ?>
+                    <?php foreach ($thenoidia as $t) : ?>
+                        <option value="<?= $t['sothe'] ?>">Thẻ nội địa: <?= $t['sothe']?></option>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                    <?php if (!empty($thequocte)) : ?>
+                        <?php foreach ($thequocte as $tq) : ?>
+                            <option value="<?= $tq['sothe'] ?>">Thẻ quốc tế: <?= $tq['sothe']?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+                <?php endif; ?>
+        </div>
+        <button type="submit" class="btn btn-success mt-2">Xác Nhận đặt hàng</button>
     </form>
 </div>
 <?php include_once __DIR__ . '/../general/footer.php' ?>
@@ -111,7 +129,11 @@ $tongtien = 0;
             var payment = this.value;
             if (payment == 2)
             {
-
+                $('#payment_type_2').show();
+            }
+            else
+            {
+                $('#payment_type_2').hide();
             }
         });
         });
