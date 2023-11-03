@@ -42,4 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         $stmt->execute([$tong,$madh]);
     }
 }
+else{
+    
+}
 
