@@ -83,6 +83,4 @@ $orders = $stmt->fetchAll();
         <?php endforeach; ?>
     </table>
 </div>
-<?php include_once __DIR__ . '/../general/footer.php'; ?>
-
-
+<?php include_once __DIR__ . '/../general/footer.php';
