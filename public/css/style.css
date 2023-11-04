@@ -125,3 +125,7 @@ ul.sub-filter li a {
 .filter li:hover>ul.sub-filter {
     display: flex;
 }
+
+  div.star-wrapper i {
+    cursor: pointer;
+  }

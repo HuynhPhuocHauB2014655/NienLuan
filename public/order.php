@@ -6,9 +6,9 @@ include_once __DIR__ . '/../general/header.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     $madh = date('dmyhms') . $_SESSION['user'];
-    $sql_order = 'INSERT INTO donhang value (?,?,?,?,?,?,?,?)';
+    $sql_order = 'INSERT INTO donhang value (?,?,?,?,?,?)';
     $stmt_order = $pdo->prepare($sql_order);
-    $stmt_order->execute([$madh,0,date('Y-m-d'),0,"","",$_POST['paymentType'],$_SESSION['user']]);
+    $stmt_order->execute([$madh,0,date('Y-m-d'),0,$_POST['paymentType'],$_SESSION['user']]);
     $list_order = 'INSERT into danhsachsanpham value (?,?)';
     $stmt_list_order = $pdo->prepare($list_order);
     if(isset($_POST['masp']))

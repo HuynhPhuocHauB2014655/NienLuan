@@ -55,43 +55,72 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                 </tr>
         </tbody>
     </table>
-    <table class="table table-striped" style="width: 50%;">
-        <tr>
-            <td>Trạng thái đơn hàng:</td>
-            <td class="text-primary"><?= $orders['tentt']; ?></td>
-        </tr>
-        <tr>
-            <td>Hình thức thanh toán:</td>
-            <td><?= $orders['hinhthuctt'] == 1 ? 'Thanh toán khi nhận hàng' : 'Thanh toán qua thẻ ngân hàng'; ?></td>
-        <tr>
-            <td>Người nhận : </td>
-            <td><?=$user['hoten'] ?></td>
-        </tr>
-        <tr>
-            <td>Số điện thoại : </td>
-            <td><?=$user['sodienthoai'] ?></td>
-        </tr>
-        <tr>
-            <td>Địa chỉ giao hàng : </td>
-            <td><?=$user['diachi'] ?></td>
-        </tr>    
-    </table>
-    <?php if($orders['trangthaidh'] == 0) : ?>
-        <form action="delete-order.php" method='post'>
-            <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
-            <button type="button" class="btn btn-outline-danger btn-sm" name="confirm">
-                Hủy đơn hàng
-            </button>
-        </form>
-    <?php elseif($orders['trangthaidh']==3) : ?>
-        <form method='post'>
-            <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
-            <input type="hidden" name="trangthaidh" value="4">
-            <button type="button" class="mb-4 btn btn-outline-success btn-sm" name="confirm">
-                Đã nhận được hàng
-            </button>
-        </form>
-    <?php endif; ?>
+    <div class="row">
+        <div class="col-sm-6">
+        <table class="table table-striped">
+            <tr>
+                <td>Trạng thái đơn hàng:</td>
+                <td class="text-primary"><?= $orders['tentt']; ?></td>
+            </tr>
+            <tr>
+                <td>Hình thức thanh toán:</td>
+                <td><?= $orders['hinhthuctt'] == 1 ? 'Thanh toán khi nhận hàng' : 'Thanh toán qua thẻ ngân hàng'; ?></td>
+            <tr>
+                <td>Người nhận : </td>
+                <td><?=$user['hoten'] ?></td>
+            </tr>
+            <tr>
+                <td>Số điện thoại : </td>
+                <td><?=$user['sodienthoai'] ?></td>
+            </tr>
+            <tr>
+                <td>Địa chỉ giao hàng : </td>
+                <td><?=$user['diachi'] ?></td>
+            </tr>    
+        </table>
+        </div>
+        <div class="col-sm-6">
+        <?php if($orders['trangthaidh'] == 4) : ?>
+            <h5>Đánh giá sản phẩm trong đơn hàng</h5>
+            <select class="form-select" id="select-phone">
+            <option selected disabled>Chọn sản phẩm để đánh giá</option>
+                <?php foreach ($row_order_info as $sp) : ?>
+                    <option value="<?= $sp['masp'] ?>"><?= $sp['tensp'] ?></option>
+                <?php endforeach; ?>
+            </select>
+                <form style="display:none;" id="rating-form" action="rating.php" method="post">
+                    <div class="star-wrapper my-3">
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                    <input type="hidden" name="madh" value="<?=$_GET['madh']?>">
+                    <input type="hidden" name="masp">
+                    <input type="hidden" name="rating">
+                    <textarea rows="4" cols="50" name="comment" placeholder="Đánh giá của bạn..."></textarea><br>
+                    <button type="submit" class="btn btn-success mt-2">Gửi đánh giá</button>
+                </form>
+        <?php endif; ?>    
+        </div>
+        <?php if($orders['trangthaidh'] == 0) : ?>
+            <form action="delete-order.php" method='post'>
+                <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
+                <button type="button" class="btn btn-outline-danger btn-sm" name="confirm">
+                    Hủy đơn hàng
+                </button>
+            </form>
+        <?php elseif($orders['trangthaidh']==3) : ?>
+            <form method='post'>
+                <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
+                <input type="hidden" name="trangthaidh" value="4">
+                <button type="button" class="mb-4 btn btn-outline-success btn-sm" name="confirm">
+                    Đã nhận được hàng
+                </button>
+            </form>
+        <?php endif; ?>
+    </div>
     <div id="modal-confirm" class="modal fade" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -125,5 +154,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                     form.trigger('submit');
                 });
             });
+        });
+        $("div.star-wrapper i").on("mouseover", function () {
+                $(this).prevAll().addBack().addClass("fa-solid text-primary").removeClass("fa-regular");  
+                $(this).nextAll().removeClass("fa-solid bg-primary").addClass("fa-regular");
+        });
+        $('#select-phone').on("change",function () {
+            phone = $(this).val();
+            $('#rating-form input[name="masp"]').val(phone);
+            $('#rating-form').show();
+        });
+        $("div.star-wrapper i").on("click", function () {
+            let rating = $(this).prevAll().length + 1;
+            $('#rating-form input[name="rating"]').val(rating);
         });
     </script>
