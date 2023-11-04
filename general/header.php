@@ -43,6 +43,15 @@ require_once __DIR__ . '/../general/connect.php';
             $sql_header_stmt ->execute([$_SESSION["guest"]]);
         }
         $header_rs = $sql_header_stmt->fetch();
+        if(isset($_SESSION['user'])){
+
+            $sql_header= 'SELECT count(*) as sotb from thongbao where username=? and trangthaitb=?';
+            $sql_header_stmt = $pdo->prepare($sql_header);
+            $sql_header_stmt ->execute([$_SESSION['user'], 0]);
+            $header_rs_notice = $sql_header_stmt->fetch();
+
+        }   
+
     }
 ?>
 <!doctype html>
@@ -80,10 +89,16 @@ require_once __DIR__ . '/../general/connect.php';
                         <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>
                     </ul>
                 <?php else : ?>
-                <ul class=" header-menu">
+                <ul class=" header-menu"> 
                     <li class="nav-item"><a href="order.php">Đơn hàng</a></li>
+                    <li class="nav-item position-relative"><a href="notice.php?username=<?=$_SESSION['user']; ?>"><i class="fa-solid fa-envelope"></i></i></a>
+                    <?php if($header_rs_notice['sotb'] > 0):
+                        echo '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">' . $header_rs_notice['sotb'] . '</span></li>';
+                    endif; ?>
                     <li class="nav-item position-relative"><a href="cart.php?username=<?=$_SESSION['user']; ?>"><i class="fa-solid fa-cart-shopping"></i></a>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><?= $header_rs['sogh'] ?></span></li>
+                    <?php if($header_rs['sogh'] > 0):
+                        echo '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">' . $header_rs['sogh'] . '</span></li>';
+                    endif; ?>  
                     <li class="nav-item"><a href="user.php">Tài khoản</a></li>
                     <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>
                 </ul>
@@ -91,7 +106,9 @@ require_once __DIR__ . '/../general/connect.php';
             <?php else : ?>
                 <ul class="header-menu">
                     <li class="nav-item position-relative"><a href="cart.php?username=<?=$_SESSION['guest']; ?>"><i class="fa-solid fa-cart-shopping"></i></a>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><?= $header_rs['sogh'] ?></span></li>
+                    <?php if($header_rs['sogh'] > 0):
+                        echo '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">' . $header_rs['sogh'] . '</span></li>';
+                    endif; ?>
                     <li class="nav-item"><a href="login.php">Đăng Nhập</a></li>
                     <li class="nav-item"><a href="register.php">Đăng ký</a></li>
                 </ul>
