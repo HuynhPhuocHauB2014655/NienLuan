@@ -14,28 +14,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     if(isset($_POST['masp']))
     {
         $stmt_list_order->execute([$madh,$_POST['masp']]);
-        $sql_item = 'SELECT gia from dienthoai where masp=?';
+        $sql_item = 'SELECT * from dienthoai where masp=?';
         $stmt_item = $pdo->prepare($sql_item);
         $stmt_item->execute([$_POST['masp']]);
-        $item_price = $stmt_item->fetch();
-        $sql = 'UPDATE donhang set tongtien=? where madh=?';
+        $item = $stmt_item->fetch();
+        $sql_tongtien = 'UPDATE donhang set tongtien=? where madh=?';
+        $stmt_tongtien = $pdo->prepare($sql_tongtien);
+        $stmt_tongtien->execute([$item['gia'],$madh]);
+        $sql = 'UPDATE dienthoai set tonkho=tonkho-1 where masp=?';
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$item_price['gia'],$madh]);
+        $stmt->execute([$_POST['masp']]);
     }
     else
     {
         $tong = 0;
+        $sql = 'UPDATE dienthoai set tonkho=tonkho-1 where masp=?';
+        $stmt = $pdo->prepare($sql);
         $sql_cart = 'SELECT * from giohang where magh=?';
         $stmt_cart = $pdo->prepare($sql_cart);
         $stmt_cart->execute([$_SESSION['user']]);
         $cart = $stmt_cart->fetchAll();
-        $sql_item = 'SELECT gia from dienthoai where masp=?';
+        $sql_item = 'SELECT * from dienthoai where masp=?';
         $stmt_item = $pdo->prepare($sql_item);
         foreach ($cart as $item) {
             $stmt_list_order->execute([$madh,$item['masp']]);
             $stmt_item->execute([$item['masp']]);
             $item_price = $stmt_item->fetch();
             $tong += $item_price['gia'];
+            $stmt->execute([$item['masp']]);
         }
         $sql = 'UPDATE donhang set tongtien=? where madh=?';
         $stmt = $pdo->prepare($sql);
@@ -69,7 +75,7 @@ $orders = $stmt->fetchAll();
             <tr>
                 <td><?=$order['madh'] ?></td>
                 <td><?=$order['ngaylapdh'] ?></td>
-                <td><?=$order['tongtien'] ?></td>
+                <td><?=number_format($order['tongtien']) ?> đ</td>
                 <td><?=$order['tentt']?></td>
                 <td><a  class="btn btn-sm btn-outline-primary" href="order-info.php?madh=<?=$order['madh']?>">Xem chi tiết</a></td>
             </tr>

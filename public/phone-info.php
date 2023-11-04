@@ -12,18 +12,20 @@ $rs = $stmt->fetch();
 
 
 <?php include_once __DIR__ . '/../general/nav.php' ?>
-<?php if(isset($_SESSION['msg'])) : ?>
-<?php endif; unset($_SESSION['msg']); ?>
 <h1 class="text-center py-2 border boder-2 border-primary rounded">Thông tin sản phẩm</h1>
 <div class="row border rounded p-3">
     <div class="col-sm-4 text-center mt-2">
         <img class="img-fluid" src="images/<?= $rs['anh']; ?>" alt="" style="width: 300px; max-height: 300px">
         <form action="add-cart.php" method="post" class="mt-5">
             <input type="hidden" name="masp" id="masp" value="<?= $rs['masp']; ?>">
+            <?php if ($rs['tonkho'] == 0) : ?>
+                <p class="text-danger">Sản phẩm đã hết hàng</p>
+            <?php else : ?>
             <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
             <?php if(isset($_SESSION['user'])) : ?>
-            <a href="payment.php?masp=<?= $rs['masp']; ?>" class="btn btn-danger">Mua Ngay</a>
-        <?php endif; ?>
+                <a href="payment.php?masp=<?= $rs['masp']; ?>" class="btn btn-danger">Mua Ngay</a>
+            <?php endif; ?>
+            <?php endif; ?>
         </form>
     </div>
     <div class="col-sm-8">

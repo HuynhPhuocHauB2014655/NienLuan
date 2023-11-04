@@ -4,7 +4,9 @@ require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
 if($_SERVER['REQUEST_METHOD'] == 'GET')
 {
-    $query_order_info = 'SELECT * from donhang d join danhsachsanpham ds on d.madh=ds.madh join dienthoai dt on dt.masp=ds.masp join trangthai t on t.matt=d.trangthaidh where d.madh=?';
+    $query_order_info = 'SELECT * from donhang d join danhsachsanpham ds on d.madh=ds.madh 
+    join dienthoai dt on dt.masp=ds.masp join trangthai t on t.matt=d.trangthaidh  
+    where d.madh=?';
     $stmt_order_info = $pdo->prepare($query_order_info);
     $stmt_order_info->execute([$_GET['madh']]);
     $row_order_info = $stmt_order_info->fetchAll();
@@ -43,11 +45,14 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
                 </tr>
         </tbody>
     </table>
-    <table class="table table-striped">
+    <table class="table table-striped" style="width: 50%;">
         <tr>
             <td>Trạng thái đơn hàng:</td>
             <td class="text-primary"><?= $orders['tentt']; ?></td>
         </tr>
+        <tr>
+            <td>Hình thức thanh toán:</td>
+            <td><?= $orders['hinhthuctt'] == 1 ? 'Thanh toán khi nhận hàng' : 'Thanh toán qua thẻ ngân hàng'; ?></td>
         <tr>
             <td>Người nhận : </td>
             <td><?=$user['hoten'] ?></td>

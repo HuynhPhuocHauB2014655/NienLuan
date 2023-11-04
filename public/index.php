@@ -178,9 +178,6 @@ include_once __DIR__ . '/../general/header.php';
                             <input type="hidden" name="masp" value="<?= $htmlspecialchars($col["masp"]); ?>">
                             <img class="py-2 item-img img-fluid" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
                             <p class="fs-7 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
-                            <?php if($col['tonkho'] = 0 ) : ?>
-                                <p>Đã hết hàng</p>
-                            <?php endif; ?>
                             <p class="item-prices text-danger fs-4"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user'] == "admin") : ?>
                                 <div class="row mb-2">
@@ -190,10 +187,15 @@ include_once __DIR__ . '/../general/header.php';
                                     <form class="form-inline col-sm" action="delete.php" method="POST">
                                             <input type="hidden" name="masp" value="<?= $col['masp'] ?>">
                                             <button type="submit" class="btn btn-xs btn-danger" name="delete">
-                                            Xóa
+                                                Xóa
                                             </button>
                                     </form>
                                 </div>   
+                            <?php endif; ?>
+                            <?php if($col['tonkho'] == 0 ) : ?>
+                                <p>Đã hết hàng</p>
+                            <?php else : ?>
+                                <p>Còn lại: <?=$col['tonkho']; ?></p>
                             <?php endif; ?>
                             <p class="fst-italic">Bấm vào hình để xem chi tiết</p>
                     </div>

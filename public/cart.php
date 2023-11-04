@@ -7,7 +7,7 @@ $query = 'SELECT * from giohang g join dienthoai d on g.masp=d.masp where magh=?
 $stmt=$pdo->prepare($query);
 $stmt->execute([$_GET['username']]);
 $rs = $stmt->fetchAll();
-
+$sold_out = false;
 ?>
 
 <?php include_once __DIR__ . '/../general/nav.php' ?>
@@ -18,7 +18,9 @@ $rs = $stmt->fetchAll();
     
     <tr class="border">
         <td scope="row" class="px-5 py-5"><img src="images/<?=$rs['anh']?>" alt="" width="100" height="100"></td>
-        <td scope="row" class="px-5 py-5"><?=$rs['tensp']?></td>
+        <td scope="row" class="px-5 py-5"><?=$rs['tensp']?>
+            <?php if($rs['tonkho'] == 0) : ?> <?=$sold_out=true?><br> <span class="fst-italic text-danger">Sản phẩm này đã hết hàng</span></td>
+            <?php endif; ?>
         <td scope="row" class="px-5 py-5"><?=$htmlspecialchars(number_format($rs['gia'],0,",","."));?>đ</td>
         <td class="px-5 py-5"><a class="btn btn-danger" href="delete-cart.php?masp=<?=$rs['masp']?>">Xóa</a></td>
         <?php $tong+=$rs['gia']; ?>
@@ -29,7 +31,11 @@ $rs = $stmt->fetchAll();
         <td class="px-5 py-5">
             <?=$htmlspecialchars(number_format($tong,0,",","."));?> đ
         </td>
-        <td colspan="2" class="px-5 py-5 text-center"><form action="payment.php" method="post"><button class="btn btn-outline-primary" type="submit">Thanh toán</button></form></td>
+        <?php if($sold_out) : ?>
+            <td colspan="2" class="px-5 py-5 text-center">Xóa sản phẩm đã hết hàng trước khi thực hiện thanh toán</td>
+        <?php else : ?>
+            <td colspan="2" class="px-5 py-5 text-center"><form action="payment.php" method="post"><button class="btn btn-outline-primary" type="submit">Thanh toán</button></form></td>
+        <?php endif; ?>
     </tr>
 </table>
 <?php else : ?>

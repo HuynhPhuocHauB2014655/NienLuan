@@ -124,7 +124,7 @@ $tongtien = 0;
                 </select>
                 <?php endif; ?>
         </div>
-        <button type="submit" class="btn btn-success mt-2">Xác Nhận đặt hàng</button>
+        <button type="submit" class="btn btn-success my-2">Xác Nhận đặt hàng</button>
     </form>
 </div>
 <?php include_once __DIR__ . '/../general/footer.php' ?>
