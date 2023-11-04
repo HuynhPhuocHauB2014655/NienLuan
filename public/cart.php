@@ -34,7 +34,15 @@ $sold_out = false;
         <?php if($sold_out) : ?>
             <td colspan="2" class="px-5 py-5 text-center">Xóa sản phẩm đã hết hàng trước khi thực hiện thanh toán</td>
         <?php else : ?>
-            <td colspan="2" class="px-5 py-5 text-center"><form action="payment.php" method="post"><button class="btn btn-outline-primary" type="submit">Thanh toán</button></form></td>
+            <td colspan="2" class="px-5 py-5 text-center">
+                <?php if (!isset($_SESSION['user'])) : ?>
+                    <a class="btn btn-sm btn-outline-primary" href="login.php">Đăng nhập để thực hiện thanh toán</a>
+                <?php else : ?>
+                    <form action="payment.php" method="post">
+                        <button class="btn btn-outline-primary" type="submit">Thanh toán</button>
+                    </form>
+                <?php endif; ?>
+            </td>
         <?php endif; ?>
     </tr>
 </table>
