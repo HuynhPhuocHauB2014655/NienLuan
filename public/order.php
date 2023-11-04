@@ -6,9 +6,9 @@ include_once __DIR__ . '/../general/header.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     $madh = date('dmyhms') . $_SESSION['user'];
-    $sql_order = 'INSERT INTO donhang value (?,?,?,?,?,?,?)';
+    $sql_order = 'INSERT INTO donhang value (?,?,?,?,?,?,?,?)';
     $stmt_order = $pdo->prepare($sql_order);
-    $stmt_order->execute([$madh,0,date('Y-m-d'),0,"","",$_SESSION['user']]);
+    $stmt_order->execute([$madh,0,date('Y-m-d'),0,"","",$_POST['paymentType'],$_SESSION['user']]);
     $list_order = 'INSERT into danhsachsanpham value (?,?)';
     $stmt_list_order = $pdo->prepare($list_order);
     if(isset($_POST['masp']))
@@ -40,9 +40,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         $sql = 'UPDATE donhang set tongtien=? where madh=?';
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$tong,$madh]);
+        $query_cart = 'DELETE from giohang where magh=?';
+        $stmt_delete = $pdo->prepare($query_cart);
+        $stmt_delete->execute([$_SESSION['user']]);
     }
+    header('location: index.php');
+    exit();
 }
-else{
-    
-}
+$sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt where username=?';
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$_SESSION['user']]);
+$orders = $stmt->fetchAll();
+?>
+<?php include_once __DIR__ . '/../general/nav.php'; ?>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mã đơn hàng</th>
+                <th>Ngày tạo</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th></th>
+            </tr>
+        </thead>
+        <?php foreach ($orders as $order): ?>
+        <tbody>
+            <tr>
+                <td><?=$order['madh'] ?></td>
+                <td><?=$order['ngaylapdh'] ?></td>
+                <td><?=$order['tongtien'] ?></td>
+                <td><?=$order['tentt']?></td>
+                <td><a  class="btn btn-sm btn-outline-primary" href="order-info.php?madh=<?=$order['madh']?>">Xem chi tiết</a></td>
+            </tr>
+        </tbody>
+        <?php endforeach; ?>
+    </table>
+</div>
+<?php include_once __DIR__ . '/../general/footer.php'; ?>
+
 

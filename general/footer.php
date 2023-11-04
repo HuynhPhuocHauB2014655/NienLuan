@@ -1,5 +1,5 @@
 </div>
-    <footer class="footer mt-3 text-center">
+    <footer class="footer mt-auto text-center">
         <p>Copyright &copy; 2023 Web Development Course</p>
     </footer>
 </body>

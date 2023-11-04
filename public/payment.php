@@ -2,6 +2,11 @@
 define('TITLE', 'Thanh toán'); 
 require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
+if(!isset($_SESSION['user']))
+{
+    header("Location: login.php");
+    exit();
+}
 $query_user = 'SELECT * from khachhang where username=?';
 $stmt_user = $pdo->prepare($query_user);
 $stmt_user->execute([$_SESSION['user']]);

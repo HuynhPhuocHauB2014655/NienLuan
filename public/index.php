@@ -208,7 +208,7 @@ include_once __DIR__ . '/../general/header.php';
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Confirmation</h4>
+                        <h4 class="modal-title">Xác nhận xóa sản phẩm</h4>
                         <button type="button" class="close" data-dismiss="modal">
                             <span>&times;</span>
                         </button>
