@@ -69,7 +69,7 @@ require_once __DIR__ . '/../general/connect.php';
             H&N SHOP
         </div>
         <div class="col-sm"></div>
-        <div class="col-sm-4">
+        <div class="col-sm-6">
         <?php 
             if(isset($_SESSION['user'])): ?>
                 <?php if($_SESSION['user'] == "admin"): ?>
