@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$_POST['month'], $_POST['myear']]);
     }    
-    elseif (isset($_POST['month'])){
+    elseif (isset($_POST['year'])){
         $sql = 'SELECT * from donhang where YEAR(ngaylapdh)=? and trangthaidh=4';
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$_POST['year']]);
@@ -38,7 +38,7 @@ elseif (isset($_GET['type']) && $_GET['type'] == 'phone'){
     $stmt->execute();
     $phone = $stmt->fetchAll();
 }
-else{
+elseif (isset($_GET['type']) && $_GET['type'] == 'th'){
     $sql = 'SELECT th.math,th.tenth,sum(gia) as doanhthu,count(*) as soluong from dienthoai d join danhsachsanpham ds on d.masp=ds.masp join donhang dh on dh.madh=ds.madh join thuonghieu th on th.math=d.math
     where dh.trangthaidh=4
     group by th.math';
@@ -146,7 +146,7 @@ $tongdanhthu = 0;
                     <td class="text-end"><b><?=number_format($tongdanhthu) ?> đ</b></td>
                 </tr>
         </tfoot>
-    <?php else : ?>
+    <?php elseif (isset($thuonghieu)) : ?>
         <thead>
             <tr>
                 <th>Mã thương hiệu</th>
