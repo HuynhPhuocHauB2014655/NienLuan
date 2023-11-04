@@ -74,12 +74,14 @@ require_once __DIR__ . '/../general/connect.php';
             if(isset($_SESSION['user'])): ?>
                 <?php if($_SESSION['user'] == "admin"): ?>
                     <ul class="header-menu">
-                    <li class="nav-item position-relative"><a href="admin-order.php">Đơn hàng</a></li>
-                    <li class="nav-item"><a href="add.php">Thêm sản phẩm</a></li>
-                    <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>
+                        <li class="nav-item p"><a href="revenue.php">Doanh thu</a></li>
+                        <li class="nav-item p"><a href="admin-order.php">Đơn hàng</a></li>
+                        <li class="nav-item"><a href="add.php">Thêm sản phẩm</a></li>
+                        <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>
+                    </ul>
                 <?php else : ?>
                 <ul class=" header-menu">
-                    <li class="nav-item position-relative"><a href="order.php">Đơn hàng</a></li>
+                    <li class="nav-item"><a href="order.php">Đơn hàng</a></li>
                     <li class="nav-item position-relative"><a href="cart.php?username=<?=$_SESSION['user']; ?>"><i class="fa-solid fa-cart-shopping"></i></a>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><?= $header_rs['sogh'] ?></span></li>
                     <li class="nav-item"><a href="user.php">Tài khoản</a></li>
