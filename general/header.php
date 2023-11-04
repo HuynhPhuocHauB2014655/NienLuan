@@ -65,8 +65,8 @@ require_once __DIR__ . '/../general/connect.php';
 <body>
 <div class="container"> 
     <nav class="header-container row">
-        <div class="logo col-sm-1">
-            <a href="index.php"><img class="img-fluid" src="images/logo.png" alt="logo"></a>
+        <div class="logo col-sm-1 fs-6">
+            H&N SHOP
         </div>
         <div class="col-sm"></div>
         <div class="col-sm-4">
@@ -74,7 +74,7 @@ require_once __DIR__ . '/../general/connect.php';
             if(isset($_SESSION['user'])): ?>
                 <?php if($_SESSION['user'] == "admin"): ?>
                     <ul class="header-menu">
-                    <li class="nav-item position-relative"><a href="order.php">Đơn hàng</a></li>
+                    <li class="nav-item position-relative"><a href="admin-order.php">Đơn hàng</a></li>
                     <li class="nav-item"><a href="add.php">Thêm sản phẩm</a></li>
                     <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>
                 <?php else : ?>

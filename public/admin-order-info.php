@@ -1,11 +1,17 @@
 <?php
-define('TITLE', 'Chi tiết đơn hàng'); 
+define('TITLE', 'Quản lí đơn hàng'); 
 require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
+if($_SESSION['user'] != 'admin')
+{
+    $_SESSION['msg'] = 'Bạn không có quyền truy cập trang này';
+    header("Location: ../index.php");
+    exit();
+}
 if($_SERVER['REQUEST_METHOD'] == 'GET')
 {
     $query_order_info = 'SELECT * from donhang d join danhsachsanpham ds on d.madh=ds.madh 
-    join dienthoai dt on dt.masp=ds.masp join trangthai t on t.matt=d.trangthaidh  
+    join dienthoai dt on dt.masp=ds.masp join trangthai t on t.matt=d.trangthaidh
     where d.madh=?';
     $stmt_order_info = $pdo->prepare($query_order_info);
     $stmt_order_info->execute([$_GET['madh']]);
@@ -13,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
 
     $query_user = 'SELECT * from khachhang where username=?';
     $stmt_user = $pdo->prepare($query_user);
-    $stmt_user->execute([$_SESSION['user']]);
+    $stmt_user->execute([$row_order_info[0]['username']]);
     $user = $stmt_user->fetch();
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -21,15 +27,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     $sql_order = 'UPDATE donhang set trangthaidh=? where madh=?';
     $stmt_order = $pdo->prepare($sql_order);
     $stmt_order->execute([$_POST['trangthaidh'],$_POST['madh']]);
-    header('location: order-info.php?madh=' . $_POST['madh']);
+    $_SESSION['msg'] = 'Đơn hàng đã được cập nhật!';
+    header('location: admin-order-info.php?madh=' . $_POST['madh']);
     exit();
 }
 ?>
 
-
 <div class="container">
     <h2 class="text-center p-2 text-info border rounded border-primary my-3">Thông tin chi tiết đơn hàng</h2>
-    <table id="order-detail" class="table table-striped">
+    <table id="order-detail" class="table table-bordered text-center">
     <thead>
         <tr>
             <th>STT</th>
@@ -43,10 +49,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                 <tr>
                     <td><?= ++$stt ?></td>
                     <td><img src="images/<?= $orders['anh']; ?>" alt="" width="50"></td>
-                    <td><?= $orders['tensp'];?>
-                    <td><?= number_format($orders['gia']).' đ'; ?><?php if ($orders['trangthaidh'] == 4) : ?>
-                        <a href="payment.php?masp=<?= $orders['masp']; ?>" class="btn btn-sm btn-outline-success ms-3">Mua lại</a>
-                    <?php endif; ?></td></td>
+                    <td><?= $orders['tensp']; ?></td>
+                    <td><?= number_format($orders['gia']).' đ'; ?></td>
                 </tr>
             <?php endforeach; ?>
                 <tr>
@@ -77,22 +81,31 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         </tr>    
     </table>
     <?php if($orders['trangthaidh'] == 0) : ?>
-        <form action="delete-order.php" method='post'>
-            <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
-            <button type="button" class="btn btn-outline-danger btn-sm" name="confirm">
-                Hủy đơn hàng
-            </button>
-        </form>
-    <?php elseif($orders['trangthaidh']==3) : ?>
         <form method='post'>
             <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
-            <input type="hidden" name="trangthaidh" value="4">
+            <input type="hidden" name="trangthaidh" value="1">
             <button type="button" class="mb-4 btn btn-outline-success btn-sm" name="confirm">
-                Đã nhận được hàng
+                Xác nhận đơn hàng
             </button>
         </form>
-    <?php endif; ?>
-    <div id="modal-confirm" class="modal fade" tabindex="-1">
+        <?php elseif ($orders['trangthaidh'] == 1) : ?>
+            <form method='post'>
+                <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
+                <input type="hidden" name="trangthaidh" value="2">
+                <button type="button" class="mb-4 btn btn-outline-success btn-sm" name="confirm">
+                    Xác nhận giao hàng
+                </button>
+            </form>
+        <?php elseif ($orders['trangthaidh'] == 2) : ?>
+            <form method='post'>
+                <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
+                <input type="hidden" name="trangthaidh" value="3">
+                <button type="button" class="mb-4 btn btn-outline-success btn-sm" name="confirm">
+                    Hàng đã đến nơi
+                </button>
+            </form>
+        <?php endif; ?>
+        <div id="modal-confirm" class="modal fade" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -117,7 +130,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             $('button[name="confirm"]').on('click', function(e){
                 e.preventDefault();
                 const form = $(this).closest('form');
-                console.log(form);
                 $('#modal-confirm').modal({
                     backdrop: 'static', keyboard: false
                 })

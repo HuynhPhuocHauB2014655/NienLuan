@@ -53,13 +53,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     header('location: index.php');
     exit();
 }
-$sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt where username=?';
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$_SESSION['user']]);
-$orders = $stmt->fetchAll();
+if(isset($_GET['choxacnhan']))
+{
+    $sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt where username=? and trangthaidh=0';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$_SESSION['user']]);
+    $orders = $stmt->fetchAll();
+}
+elseif (isset($_GET['daxacnhan']))
+{
+    $sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt where username=? and trangthaidh=1';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$_SESSION['user']]);
+    $orders = $stmt->fetchAll();
+}
+elseif (isset($_GET['danggiao']))
+{
+    $sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt where username=? and trangthaidh=2';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$_SESSION['user']]);
+    $orders = $stmt->fetchAll();
+}
+elseif (isset($_GET['dagiao']))
+{
+    $sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt where username=? and trangthaidh=4';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$_SESSION['user']]);
+    $orders = $stmt->fetchAll();
+}
+else
+{
+    $sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt where username=?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$_SESSION['user']]);
+    $orders = $stmt->fetchAll();
+}
 ?>
 <?php include_once __DIR__ . '/../general/nav.php'; ?>
 <div class="container">
+    <h3 class="text-center p-2 text-info border rounded border-primary my-3">Đơn hàng của bạn</h3>
+    <div class="d-flex">
+        <a class="btn btn-sm btn-outline-dark me-2" href="order.php?choxacnhan=true">Chờ xác nhận</a>
+        <a class="btn btn-sm btn-outline-dark me-2" href="order.php?daxacnhan=true">Đã xác nhận</a>
+        <a class="btn btn-sm btn-outline-dark me-2" href="order.php?danggiao=true">Đang giao</a>
+        <a class="btn btn-sm btn-outline-dark " href="order.php?dagiao=true">Đã giao</a>
+    </div>
     <table class="table">
         <thead>
             <tr>
