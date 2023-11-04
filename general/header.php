@@ -21,14 +21,14 @@ require_once __DIR__ . '/../general/connect.php';
             $ip = $_SERVER['REMOTE_ADDR'];  
         }
         $_SESSION['guest'] = $ip;
-        $query = 'INSERT INTO khachhang value (?,?,?,?,?,?,?,?)';
-            try {
-                $stmt1 = $pdo->prepare($query);
-                $stmt1->execute([$_SESSION['guest'],"123456","guest","","","","",$_SESSION['guest']]);
-            } catch (PDOException $e)
-            {
-                echo "Lỗi truy vấn dữ liệu 1";
-            }
+        // $query = 'INSERT INTO khachhang value (?,?,?,?,?,?,?,?)';
+        //     try {
+        //         $stmt1 = $pdo->prepare($query);
+        //         $stmt1->execute([$_SESSION['guest'],"123456","guest","","","","",$_SESSION['guest']]);
+        //     } catch (PDOException $e)
+        //     {
+        //         echo "Lỗi truy vấn dữ liệu 1";
+        //     }
     }
     if(isset($_SESSION['user']) || isset($_SESSION['guest']))
     {
@@ -66,7 +66,7 @@ require_once __DIR__ . '/../general/connect.php';
 <div class="container"> 
     <nav class="header-container row">
         <div class="logo col-sm-1 fs-6">
-            H&N SHOP
+            <a class="nav-link" href="index.php">H&N SHOP</a>
         </div>
         <div class="col-sm"></div>
         <div class="col-sm-6">

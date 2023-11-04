@@ -108,6 +108,8 @@ include_once __DIR__ . '/../general/header.php';
         $stmt->execute();
         $rs = $stmt->fetchAll();
     }
+    $sql_danhgia = 'SELECT * from danhgia where masp=?';
+    $stmt_danhgia = $pdo->prepare($sql_danhgia);
 ?>
 <body>
 <?php include_once __DIR__ . '/../general/nav.php' ?>
@@ -175,10 +177,26 @@ include_once __DIR__ . '/../general/header.php';
                     <?php $col = $stmt->fetch(); ?>
                     <?php if($col) : ?>
                     <div class="item col-sm border m-1">
+                            <?php
+                                $trungbinh=0;
+                                $stmt_danhgia->execute([$col["masp"]]);
+                                $danhgia=$stmt_danhgia->fetchAll();
+                                if($danhgia) {
+                                    foreach ($danhgia as $s) {
+                                        $trungbinh+=$s["danhgia"];
+                                    }
+                                    $trungbinh = $trungbinh / count($danhgia);
+                                }
+                                else 
+                                {
+                                    $trungbinh = 5;
+                                }
+                            ?>
                             <input type="hidden" name="masp" value="<?= $htmlspecialchars($col["masp"]); ?>">
                             <img class="py-2 item-img img-fluid" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
                             <p class="fs-7 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
                             <p class="item-prices text-danger fs-4"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
+                            <p>Đánh giá: <?=$trungbinh?>/5</p>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user'] == "admin") : ?>
                                 <div class="row mb-2">
                                     <div class="col-sm">

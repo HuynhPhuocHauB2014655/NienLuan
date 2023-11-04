@@ -10,6 +10,8 @@ try {
 } catch (PDOException $e){
     echo '<h4 class="text-center">Lỗi truy vấn dữ liệu</h4>';
 }
+    $sql_danhgia = 'SELECT * from danhgia where masp=?';
+    $stmt_danhgia = $pdo->prepare($sql_danhgia);
 ?>
 
 <?php include_once __DIR__ . '/../general/nav.php' ?>
@@ -23,32 +25,54 @@ try {
                 <?php for ($k=0;$k<4;$k++) : ?>
                     <?php $col = $stmt->fetch(); ?>
                     <?php if($col) : ?>
-                    <div class="item col-sm border m-1">
-                            <input type="hidden" name="MaSach" value="<?= $htmlspecialchars($col["masp"]); ?>">
-                            <img class="py-2 item-img img-fluid" style="max-height: 300px;" src="images/<?=$htmlspecialchars($col["anh"]);?>" alt="">
+                        <div class="item col-sm border m-1">
+                            <?php
+                                $trungbinh=0;
+                                $stmt_danhgia->execute([$col["masp"]]);
+                                $danhgia=$stmt_danhgia->fetchAll();
+                                if($danhgia) {
+                                    foreach ($danhgia as $s) {
+                                        $trungbinh+=$s["danhgia"];
+                                    }
+                                    $trungbinh = $trungbinh / count($danhgia);
+                                }
+                                else 
+                                {
+                                    $trungbinh = 5;
+                                }
+                            ?>
+                            <input type="hidden" name="masp" value="<?= $htmlspecialchars($col["masp"]); ?>">
+                            <img class="py-2 item-img img-fluid" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
                             <p class="fs-7 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
-                            <p class=""><?= $htmlspecialchars($col['tonkho']); ?> đ</p>
-                            <p class="item-prices text-danger"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
+                            <p class="item-prices text-danger fs-4"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
+                            <p>Đánh giá: <?=$trungbinh?>/5</p>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user'] == "admin") : ?>
                                 <div class="row mb-2">
                                     <div class="col-sm">
                                         <a href="edit.php?masp=<?=$col['masp'];?>" class="btn btn-primary">Sửa</a>
                                     </div>
                                     <form class="form-inline col-sm" action="delete.php" method="POST">
-                                            <input type="hidden" name="id" value="<?= $col['masp'] ?>">
+                                            <input type="hidden" name="masp" value="<?= $col['masp'] ?>">
                                             <button type="submit" class="btn btn-xs btn-danger" name="delete">
-                                            Xóa
+                                                Xóa
                                             </button>
                                     </form>
                                 </div>   
                             <?php endif; ?>
-                    </div>
-                <?php else : ?>
-                    <div class="item-empty col-sm m-1"></div>
-                <?php endif; ?>
+                            <?php if($col['tonkho'] == 0 ) : ?>
+                                <p>Đã hết hàng</p>
+                            <?php else : ?>
+                                <p>Còn lại: <?=$col['tonkho']; ?></p>
+                            <?php endif; ?>
+                            <p class="fst-italic">Bấm vào hình để xem chi tiết</p>
+                        </div>
+                    <?php else : ?>
+                        <div class="item-empty col-sm m-1"></div>
+                    <?php endif; ?>
                 <?php endfor; ?>   
             </div>
             <?php endfor; ?>
+        </div>
             <?php else:  ?>
                 <h5 class="text-center p-5">Không có kết quả nào phù hợp</h5>
             <?php endif; ?>
