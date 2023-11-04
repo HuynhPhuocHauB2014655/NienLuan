@@ -24,7 +24,7 @@ include_once __DIR__ . '/../general/nav.php';
 <div class="row">
         <div class="col-sm">
         <h3>Liên hệ với chúng tôi!</h3>
-            <p>Chúng tôi mong muốn lắng nghe từ bạn. Hãy liên hệ với chúng tôi và một thành viên của chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất. Chúng tôi yêu thích việc nhận được email của bạn mỗi ngày <em>mỗi ngày</em>.</p>
+            <p>Chúng tôi mong muốn lắng nghe từ bạn. Hãy liên hệ với chúng tôi và một thành viên của chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất. Chúng tôi yêu thích việc nhận được phản hồi của bạn mỗi ngày.</p>
             <form>
             <p>
                 
@@ -52,3 +52,4 @@ include_once __DIR__ . '/../general/nav.php';
            
         </div>
     </div>
+    <?php include_once __DIR__ . '/../general/footer.php'; ?>

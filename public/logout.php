@@ -9,4 +9,4 @@ if (isset($_SESSION['user'])) {
     exit();
 }
 
-include_once __DIR__ . '/../partials/footer.php';
+
