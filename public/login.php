@@ -55,9 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                   }
                 }
-              // $sql = 'DELETE from khachhang where username=?';
-              // $stmt4 = $pdo->prepare($sql);
-              // $stmt4->execute([$_SESSION['guest']]);
               unset($_SESSION['guest']); 
             }
         }

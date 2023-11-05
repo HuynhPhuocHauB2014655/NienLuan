@@ -129,3 +129,9 @@ ul.sub-filter li a {
   div.star-wrapper i {
     cursor: pointer;
   }
+.chuaxem {
+    background: #e8e8e8;
+}
+  .notice:hover {
+    background: #f0f0f0;
+  }

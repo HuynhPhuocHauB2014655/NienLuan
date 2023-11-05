@@ -21,14 +21,6 @@ require_once __DIR__ . '/../general/connect.php';
             $ip = $_SERVER['REMOTE_ADDR'];  
         }
         $_SESSION['guest'] = $ip;
-        // $query = 'INSERT INTO khachhang value (?,?,?,?,?,?,?,?)';
-        //     try {
-        //         $stmt1 = $pdo->prepare($query);
-        //         $stmt1->execute([$_SESSION['guest'],"123456","guest","","","","",$_SESSION['guest']]);
-        //     } catch (PDOException $e)
-        //     {
-        //         echo "Lỗi truy vấn dữ liệu 1";
-        //     }
     }
     if(isset($_SESSION['user']) || isset($_SESSION['guest']))
     {
@@ -61,7 +53,7 @@ require_once __DIR__ . '/../general/connect.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style copy.css">
     <link rel="shortcut icon" type="image/jpg" href="">
     <title><?php
             if (defined('TITLE')) {
