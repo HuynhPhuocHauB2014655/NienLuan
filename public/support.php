@@ -40,7 +40,7 @@ include_once __DIR__ . '/../general/nav.php';
     </h2>
     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
       <div class="accordion-body">
-        <strong>Được. Chúng tôi chấp nhận việc chi trả qua PayPal.  </strong>
+        <strong>Xin lỗi nhưng chúng tôi không nhận thanh toán qua PayPal.</strong>
       </div>
     </div>
   </div>

@@ -85,6 +85,7 @@ require_once __DIR__ . '/../general/connect.php';
                     <ul class="header-menu">
                         <li class="nav-item p"><a href="revenue.php">Doanh thu</a></li>
                         <li class="nav-item p"><a href="admin-order.php">Đơn hàng</a></li>
+                        <li class="nav-item"><a href="notice.php">Thông báo</a></li>
                         <li class="nav-item"><a href="add.php">Thêm sản phẩm</a></li>
                         <li class="nav-item"><a href="logout.php">Đăng xuất</a></li>
                     </ul>

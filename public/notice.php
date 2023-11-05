@@ -6,7 +6,7 @@ require_once __DIR__ . '/../general/connect.php';
 if(isset($_SESSION['user'])) {
 
     $user = $_SESSION['user'];
-    if($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(isset($_GET['idthongbao']) ) {
        
             $query = 'select * from thongbao where idthongbao=?';
             $stmt = $pdo->prepare($query);
@@ -30,28 +30,36 @@ if(isset($_SESSION['user'])) {
             }
 
 
-         if (!empty($_POST['delete'])) {
+         
+    } else if (isset($_POST['delete'])) {
+        
             $query = 'delete from thongbao where idthongbao=?';
             $stmt = $pdo->prepare($query);
             $stmt->execute([$_POST['delete']]);
-        }
+
     }
 
-
-
-
-
+    if ($_SESSION['user'] == 'admin'){
+        $query = 'select * from thongbao ';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();    
+    }
+    else if (isset($_GET['tbdaxem'])) {
+        $query = 'select * from thongbao where username=? and trangthaitb=?';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$_SESSION['user'], 1]);
+    } else if (isset($_GET['tbchuaxem'])) {
+        $query = 'select * from thongbao where username=? and trangthaitb=?';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$_SESSION['user'], 0]);
+    }  else{
+        $query = 'select * from thongbao where username=?';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$user]);  
+    }
+        $result = $stmt->fetchAll();
+        $n = count($result);
     
-    $query = 'select * from thongbao where username=?';
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([$user]);
-    $result = $stmt->fetchAll();
-    $n = count($result);
-
-
-
-    
-
 }
 
 
@@ -63,19 +71,19 @@ include_once __DIR__ . '/../general/nav.php';
     <h3 class="text-center h2">Thông báo</h3>
     <hr>
     <div class="d-flex my-2">
-        <a class="btn btn-sm btn-outline-danger me-2" href="notice.php?tbdaxem=1">Thông báo chưa xem</a>
-        <a class="btn btn-sm btn-outline-success me-2" href="notice.php?tbchuaxem=1">Thông báo đã xem</a>
+        <a class="btn btn-sm btn-outline-danger me-2" href="notice.php?tbchuaxem=1">Thông báo chưa xem</a>
+        <a class="btn btn-sm btn-outline-success me-2" href="notice.php?tbdaxem=1">Thông báo đã xem</a>
     </div>
 
     <?php if($n == 0): ?>
-        <h1 class="text-center my-5">Bạn không có thông báo nào!</h1>
+        <h1 class="text-center my-5">Bạn không có thông báo nào chưa xem!</h1>
     <?php elseif($n > 0) : ?>    
         <div class="border p-3" >
             <?php  foreach ($result as $rs) : ?>
                 
                     <div class="row">
                         
-                        <div class="col-sm border">
+                        <div class="col-sm border py-1">
                             <a class="text-decoration-none text-secondary" href="notice.php?idthongbao=<?= $rs['idthongbao'] ?>">
                             <h3><?= $rs['tieudetb']; ?></h3>
                             <div class="<?= $rs['ttxem'] == 0 ?  'd-none' : 'd-block';?>">
@@ -85,7 +93,17 @@ include_once __DIR__ . '/../general/nav.php';
                             </a>
                         </div>
                         
-                        <form method="post" class="col-sm mt-3">
+                        <?php if($_SESSION['user'] == 'admin'): ?>
+                            <!-- <div class="col-sm-2 border" >
+                                <h4><?= $rs['username'] ?> </h4>
+                            </div> -->
+                            <form action="add-notice.php" method="post" class="col-sm-1 mt-3">
+                                <div class="col-sm">
+                                    <button type="submit" class="btn btn-success">Thêm</button>
+                                </div>
+                            </form>
+                        <?php endif; ?>
+                        <form method="post" class="col-sm-1 mt-3">
                             <div class="col-sm">
                                 <input type="hidden" name="delete" value="<?= $rs['idthongbao'] ?>">
                                 <button type="submit" class="btn btn-danger">Xóa</button>
