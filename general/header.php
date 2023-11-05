@@ -75,7 +75,7 @@ require_once __DIR__ . '/../general/connect.php';
 <div class="container"> 
     <nav class="header-container row">
         <div class="logo col-sm-1 fs-6">
-            <a class="nav-link" href="index.php">H&N SHOP</a>
+            <a class="nav-link" href="index.php"><img src="/images/LOGO-1.png" width="150"></a>
         </div>
         <div class="col-sm"></div>
         <div class="col-sm-6">
