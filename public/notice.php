@@ -100,17 +100,17 @@ include_once __DIR__ . '/../general/nav.php';
         var content = $(this).find('.noidung');
         if (content.css('display') === 'block'){
             content.hide();
+            <?php if($_SESSION['user'] != 'admin') : ?>
+                var seen = $(this).find('.seen');
+                var trangthai = seen.find('input[name="trangthaitb"]').val();
+                if(trangthai == 0)
+                {
+                    seen.trigger('submit');
+                }
+            <?php endif; ?>
         }else{
             content.show();
         }
-        <?php if($_SESSION['user'] != 'admin') : ?>
-            var seen = $(this).find('.seen');
-            var trangthai = seen.find('input[name="trangthaitb"]').val();
-            if(trangthai == 0)
-            {
-                seen.trigger('submit');
-            }
-        <?php endif; ?>
     });
 });
 
