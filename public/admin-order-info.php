@@ -23,7 +23,22 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
     $user = $stmt_user->fetch();
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST')
-{
+{   
+    if($_POST['trangthaidh'] == 1) {
+        $tieudetb = "XÁC NHẬN ĐƠN HÀNG";
+        $noidungtb =  "Đơn hàng " . $_POST['madh'] . " của bạn đã được xác nhận."; 
+        $query_tb = 'insert into thongbao values (?,?,?,?,?,?)';
+        $stmt_tb = $pdo->prepare($query_tb);
+        $stmt_tb->execute(["", $_POST['username'], 0, 0, $tieudetb, $noidungtb]);
+    }
+    if($_POST['trangthaidh'] == 2) {
+        $tieudetb = "ĐÃ GIAO HÀNG CHO ĐƠN VỊ VẬN CHUYỂN";
+        $noidungtb =  "Đơn hàng " . $_POST['madh'] . " của bạn đã được giao cho đơn vị vận chuyển."; 
+        $query_tb = 'insert into thongbao values (?,?,?,?,?,?)';
+        $stmt_tb = $pdo->prepare($query_tb);
+        $stmt_tb->execute(["", $_POST['username'], 0, 0, $tieudetb, $noidungtb]);
+    }
+
     $sql_order = 'UPDATE donhang set trangthaidh=? where madh=?';
     $stmt_order = $pdo->prepare($sql_order);
     $stmt_order->execute([$_POST['trangthaidh'],$_POST['madh']]);
@@ -84,6 +99,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         <form method='post'>
             <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
             <input type="hidden" name="trangthaidh" value="1">
+            <input type="hidden" name="username" value="<?= $orders['username'];?>">
             <button type="button" class="mb-4 btn btn-outline-success btn-sm" name="confirm">
                 Xác nhận đơn hàng
             </button>
@@ -92,6 +108,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <form method='post'>
                 <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
                 <input type="hidden" name="trangthaidh" value="2">
+                <input type="hidden" name="username" value="<?= $orders['username'];?>">
                 <button type="button" class="mb-4 btn btn-outline-success btn-sm" name="confirm">
                     Xác nhận giao hàng
                 </button>
