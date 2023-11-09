@@ -176,7 +176,7 @@ include_once __DIR__ . '/../general/header.php';
                 <?php for ($k=0;$k<4;$k++) : ?>
                     <?php $col = $stmt->fetch(); ?>
                     <?php if($col) : ?>
-                    <div class="item col-sm border m-1">
+                    <div class="item col-xl col-md-6 col-12 border">
                             <?php
                                 $trungbinh=0;
                                 $stmt_danhgia->execute([$col["masp"]]);
@@ -193,7 +193,9 @@ include_once __DIR__ . '/../general/header.php';
                                 }
                             ?>
                             <input type="hidden" name="masp" value="<?= $htmlspecialchars($col["masp"]); ?>">
-                            <img class="py-2 item-img img-fluid" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
+                            <div class="d-flex justify-content-center">
+                            <img class="py-2 item-img img-fluid text-center" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
+                            </div>
                             <p class="fs-7 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
                             <p class="item-prices text-danger fs-4"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
                             <p>Đánh giá: <?=$trungbinh?>/5</p>
@@ -218,7 +220,7 @@ include_once __DIR__ . '/../general/header.php';
                             <p class="fst-italic">Bấm vào hình để xem chi tiết</p>
                     </div>
                 <?php else : ?>
-                    <div class="item-empty col-sm m-1"></div>
+                    <div class="item-empty col-xl col-md-6 col-12"></div>
                 <?php endif; ?>
                 <?php endfor; ?>   
             </div>
