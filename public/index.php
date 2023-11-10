@@ -185,15 +185,15 @@ include_once __DIR__ . '/../general/header.php';
                                     foreach ($danhgia as $s) {
                                         $trungbinh+=$s["danhgia"];
                                     }
-                                    $trungbinh = $trungbinh / count($danhgia);
+                                    $trungbinh = round($trungbinh / count($danhgia),1);
                                 }
                                 else 
                                 {
                                     $trungbinh = 5;
                                 }
                             ?>
-                            <input type="hidden" name="masp" value="<?= $htmlspecialchars($col["masp"]); ?>">
                             <div class="d-flex justify-content-center">
+                            <input type="hidden" name="masp" value="<?= $htmlspecialchars($col["masp"]); ?>">
                             <img class="py-2 item-img img-fluid text-center" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
                             </div>
                             <p class="fs-7 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
@@ -244,10 +244,6 @@ include_once __DIR__ . '/../general/header.php';
             </div>
         </div>
 <?php include_once __DIR__ . '/../general/footer.php';?>
-<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
-</script> -->
     <script>
         $(document).ready(function(e) {
             $(".item-img").on('click', function (e) {

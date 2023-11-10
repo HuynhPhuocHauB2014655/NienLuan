@@ -7,6 +7,11 @@ $query = 'CALL getphoneinfo(?)';
 $stmt = $pdo->prepare($query);
 $stmt->execute([$_GET['masp']]);
 $rs = $stmt->fetch();
+$stmt=null;
+$query = 'SELECT * from danhgia where masp=? order by danhgia desc';
+$stmt = $pdo->prepare($query);
+$stmt->execute([$_GET['masp']]);
+$danhgia = $stmt->fetchAll();
 ?>
 
 
@@ -70,9 +75,8 @@ $rs = $stmt->fetch();
         </table> 
     </div>
 </div>
-<div class="p-3 border mt-2 mx-5">
-<p class="text-center pb-1 fs-3 border-bottom">Thông số chi tiết</p>        
-<table style="width: 50%;" class="table table-striped border rounded m-auto">
+<p class="text-center pb-1 fs-3 border-bottom">Thông số chi tiết</p>   
+<table style="width:70%;" class="table border rounded mx-auto">
     <tr>
         <th colspan="2">Camera:</th>
     </tr>
@@ -139,6 +143,63 @@ $rs = $stmt->fetch();
         <td>Thời điểm ra mắt: </td>
         <td class="text-end"><?=$rs['ngayramat']?></td>
     </tr>
-    </table>
+</table>
+<div class="my-2">
+    <span class="fs-3 me-2"><b>Đánh giá</b></span><span id="avg"></span>
+    <div class="d-flex mt-2">
+        <button class="btn btn-sm btn-outline-primary me-2" id="all">Tất cả</button>
+        <?php for($i=1;$i<=5;$i++): ?>
+            <div class="me-2">
+                <input type="hidden" name="star" value="<?=$i?>">
+                <button class="btn btn-sm btn-outline-primary filter-form"><?=$i .'<i class="fa-solid fa-star"></i>'?></button>
+            </div>
+        <?php endfor; ?>
+    </div>
+</div>
+<div class="my-2">
+    <?php if($danhgia) : ?>
+        <?php foreach($danhgia as $d) : ?>
+            <div class="danhgia border px-2 mt-2">
+                <input type="hidden" name="rating" value="<?= $d['danhgia'] ?>">
+                <div class="star-wrapper my-3">
+                </div>
+                <p><?=$d['binhluan']?></p>
+            </div>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <p>Chưa có đánh giá</p>
+    <?php endif; ?>
 </div>
 <?php include_once __DIR__ . '/../general/footer.php';?>
+<script>
+    $(document).ready(function(){
+        danhgia = $('.danhgia');
+        $('#all').click(function(){
+            danhgia.show();
+        });
+        $('.filter-form').click(function(){
+            var star = $(this).siblings().val();
+            danhgia.each(function (){
+                if($(this).children('[name="rating"]').val() == star){
+                    $(this).show();
+                   }
+                   else
+                   {
+                    $(this).hide();
+                   }
+            })
+        })
+        let trungbinh=0.0;
+        avg=$('#avg');
+        danhgia.each(function(){
+            let rating = $(this).find('input').val();
+            trungbinh+=Number(rating);
+            star = $(this).find('.star-wrapper')
+            for(i=0;i<rating;i++){
+                star.append('<span class="fa-star fa-solid text-primary"></span>');
+            }
+        })
+        trungbinh /= <?=count($danhgia)?>;
+        avg.append("(" + <?=count($danhgia)?> + " đánh giá. "+ trungbinh.toFixed(1) + " sao)");
+    });
+</script>
