@@ -38,7 +38,7 @@ elseif (isset($_GET['dagiao']))
 }
 else
 {
-    $sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt';
+    $sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt order by d.trangthaidh';
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $orders = $stmt->fetchAll();

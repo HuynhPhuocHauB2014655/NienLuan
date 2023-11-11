@@ -49,6 +49,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 ?>
 
 <div class="container">
+<?php include_once __DIR__ . '/../general/nav.php' ?>
     <h2 class="text-center p-2 text-info border rounded border-primary my-3">Thông tin chi tiết đơn hàng</h2>
     <table id="order-detail" class="table table-bordered text-center">
     <thead>
@@ -100,7 +101,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
             <input type="hidden" name="trangthaidh" value="1">
             <input type="hidden" name="username" value="<?= $orders['username'];?>">
-            <button type="button" class="mb-4 btn btn-outline-success btn-sm" name="confirm">
+            <button type="button" class="mb-4 btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#modal-confirm" name="confirm">
                 Xác nhận đơn hàng
             </button>
         </form>
@@ -109,7 +110,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                 <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
                 <input type="hidden" name="trangthaidh" value="2">
                 <input type="hidden" name="username" value="<?= $orders['username'];?>">
-                <button type="button" class="mb-4 btn btn-outline-success btn-sm" name="confirm">
+                <button type="button" class="mb-4 btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#modal-confirm" name="confirm">
                     Xác nhận giao hàng
                 </button>
             </form>
@@ -117,25 +118,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             <form method='post'>
                 <input type="hidden" name="madh" value="<?= $orders['madh'];?>">
                 <input type="hidden" name="trangthaidh" value="3">
-                <button type="button" class="mb-4 btn btn-outline-success btn-sm" name="confirm">
+                <button type="button" class="mb-4 btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#modal-confirm" name="confirm">
                     Hàng đã đến nơi
                 </button>
             </form>
         <?php endif; ?>
-        <div id="modal-confirm" class="modal fade" tabindex="-1">
+        <div class="modal fade" id="modal-confirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Xác nhận</h4>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span>&times;</span>
-                        </button>
-                    </div>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
                     <div class="modal-body">Bạn có chắc chắn với hành động này không?</div>
-                    <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirm">xác nhận</button>
-                        <button type="button" data-dismiss="modal" class="btn btn-default">Trở về</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-outline-danger" id="confirm">Xác nhận</button>
+                </div>
                 </div>
             </div>
         </div>

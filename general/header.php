@@ -5,7 +5,10 @@ require_once __DIR__ . '/../general/connect.php';
     }
     if(isset($_SESSION['msg']))
     {
-        echo '<script>alert("'.$_SESSION['msg'] . '");</script>';
+        echo '<div class="alert alert-primary alert-dismissible fade show" role="alert" tabindex="-1">
+        ' . $_SESSION['msg'] . '
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
         unset($_SESSION['msg']);
     }
     $htmlspecialchars = 'htmlspecialchars';
@@ -67,7 +70,7 @@ require_once __DIR__ . '/../general/connect.php';
 <div class="container"> 
     <nav class="header-container row">
         <div class="logo col-sm-1 fs-6">
-            <a class="nav-link" href="index.php"><img src="/images/LOGO-1.png" width="150"></a>
+            <a class="nav-link" href="index.php"><img class="img-fluid" src="/images/LOGO-1.png" width="150"></a>
         </div>
         <div class="col-sm"></div>
         <div class="col-sm-6">

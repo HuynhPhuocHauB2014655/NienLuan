@@ -8,7 +8,7 @@ $stmt = $pdo->prepare($query);
 $stmt->execute([$_GET['masp']]);
 $rs = $stmt->fetch();
 $stmt=null;
-$query = 'SELECT * from danhgia where masp=? order by danhgia desc';
+$query = 'SELECT * from danhgia join donhang on danhgia.madh=donhang.madh join khachhang on khachhang.username=donhang.username where danhgia.masp=? order by danhgia.danhgia desc';
 $stmt = $pdo->prepare($query);
 $stmt->execute([$_GET['masp']]);
 $danhgia = $stmt->fetchAll();
@@ -21,17 +21,20 @@ $danhgia = $stmt->fetchAll();
 <div class="row border rounded p-3">
     <div class="col-sm-4 text-center mt-2">
         <img class="img-fluid" src="images/<?= $rs['anh']; ?>" alt="" style="width: 300px; max-height: 300px">
-        <form action="add-cart.php" method="post" class="mt-5">
-            <input type="hidden" name="masp" id="masp" value="<?= $rs['masp']; ?>">
-            <?php if ($rs['tonkho'] == 0) : ?>
-                <p class="text-danger">Sản phẩm đã hết hàng</p>
-            <?php else : ?>
-            <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
-            <?php if(isset($_SESSION['user'])) : ?>
-                <a href="payment.php?masp=<?= $rs['masp']; ?>" class="btn btn-danger">Mua Ngay</a>
-            <?php endif; ?>
-            <?php endif; ?>
-        </form>
+        <?php if(isset($_SESSION['user']) && $_SESSION['user'] == "admin") :?>
+        <?php else : ?>
+            <form action="add-cart.php" method="post" class="mt-5">
+                <input type="hidden" name="masp" id="masp" value="<?= $rs['masp']; ?>">
+                <?php if ($rs['tonkho'] == 0) : ?>
+                    <p class="text-danger">Sản phẩm đã hết hàng</p>
+                <?php else : ?>
+                <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
+                <?php if(isset($_SESSION['user'])) : ?>
+                    <a href="payment.php?masp=<?= $rs['masp']; ?>" class="btn btn-danger">Mua Ngay</a>
+                <?php endif; ?>
+                <?php endif; ?>
+            </form>
+        <?php endif; ?>
     </div>
     <div class="col-sm-8">
         <h3>Cấu hình điện thoại</h3>
@@ -160,6 +163,7 @@ $danhgia = $stmt->fetchAll();
     <?php if($danhgia) : ?>
         <?php foreach($danhgia as $d) : ?>
             <div class="danhgia border px-2 mt-2">
+                <p class="mt-3 fw-bold"><?=$d['hoten']?></p>
                 <input type="hidden" name="rating" value="<?= $d['danhgia'] ?>">
                 <div class="star-wrapper my-3">
                 </div>

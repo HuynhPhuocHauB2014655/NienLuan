@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-    $query = 'UPDATE dienthoai SET tensp=?,ngayramat=?,math=?,magia=?,maRAM=?,maROM=?,CPU=?,hedieuhanh=?,camera=?,gia=?,tonkho=?,
+    $query = 'UPDATE dienthoai SET tensp=?,ngayramat=?,math=?,magia=?,maRAM=?,maROM=?,cpu=?,hedieuhanh=?,camera=?,gia=?,tonkho=?,
                                    congketnoi=?,jacktainghe=?,loaipin=?,dungluongpin=?,thietke=?,kichthuoc=?,anh=? 
                                where masp=?';
     $stmt = $pdo->prepare($query);
@@ -51,8 +51,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             <input type="text" class="form-control" name="maRAM" value="<?= $htmlspecialchars($rs['maRAM']); ?>" ><br/>
             <label for="maROM" class="form-label">Mã ROM: </label><br>
             <input type="text" class="form-control" name="maROM" value="<?= $htmlspecialchars($rs['maROM']); ?>" ><br/>
-            <label for="CPU" class="form-label">Chíp: </label><br>
-            <input type="text" class="form-control" name="CPU" value="<?= $htmlspecialchars($rs['CPU']); ?>" ><br/>
+            <label for="CPU" class="form-label">Chip: </label><br>
+            <input type="text" class="form-control" name="cpu" value="<?= $htmlspecialchars($rs['cpu']); ?>" ><br/>
             <label for="hedieuhanh" class="form-label">Hệ điều hành: </label><br>
             <input type="text" class="form-control" name="hedieuhanh" value="<?= $htmlspecialchars($rs['hedieuhanh']); ?>" ><br/>
             </div>

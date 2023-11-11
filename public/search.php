@@ -41,9 +41,11 @@ try {
                                     $trungbinh = 5;
                                 }
                             ?>
+                            <div class="d-flex justify-content-center">
                             <input type="hidden" name="masp" value="<?= $htmlspecialchars($col["masp"]); ?>">
-                            <img class="py-2 item-img img-fluid" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
-                            <p class="fs-7 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
+                            <img class="py-2 item-img img-fluid text-center" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
+                            </div>
+                            <p class="fs-5 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
                             <p class="item-prices text-danger fs-4"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
                             <p>Đánh giá: <?=$trungbinh?>/5</p>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user'] == "admin") : ?>
@@ -53,7 +55,7 @@ try {
                                     </div>
                                     <form class="form-inline col-sm" action="delete.php" method="POST">
                                             <input type="hidden" name="masp" value="<?= $col['masp'] ?>">
-                                            <button type="submit" class="btn btn-xs btn-danger" name="delete">
+                                            <button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm" name="delete">
                                                 Xóa
                                             </button>
                                     </form>
@@ -76,20 +78,20 @@ try {
             <?php else:  ?>
                 <h5 class="text-center p-5">Không có kết quả nào phù hợp</h5>
             <?php endif; ?>
-        <div id="delete-confirm" class="modal fade" tabindex="-1">
+        <div class="modal fade" id="delete-confirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Confirmation</h4>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span>&times;</span>
-                        </button>
-                    </div>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
                     <div class="modal-body">Bạn có muốn xóa sản phẩm này không?</div>
-                    <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-danger" id="delete">Xóa</button>
-                        <button type="button" data-dismiss="modal" class="btn btn-default">Trở về</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-primary" id="delete">Xóa</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -104,10 +106,9 @@ try {
             });
             $('button[name="delete"]').on('click', function(e){
                 e.preventDefault();
+                console.log($(this));
                 const form = $(this).closest('form');
                 const name = $(this).closest('.grid-item').find('p:first');
-                console.log(name);
-                console.log(form);
                 if (name.length > 0) {
                     $('.modal-body').html(`Bạn có chắc muốn xóa "${name.text()}"?`);
                 }

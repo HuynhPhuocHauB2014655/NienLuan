@@ -104,19 +104,18 @@ $tongdanhthu = 0;
         <tbody>
         <?php foreach ($order as $order): ?>
             <tr>
-                <td><?=$order['madh'] ?></td>
+                <td><a class="nav-link link-primary" href="admin-order-info.php?madh=<?=$order['madh']?>"><?=$order['madh'] ?></a></td>
                 <td><?=$order['ngaylapdh'] ?></td>
                 <td class="text-end"><?=number_format($order['tongtien']) ?> đ</td>
                 <?php $tongdanhthu+=$order['tongtien'] ?>
-                <td><a  class="btn btn-sm btn-outline-primary" href="admin-order-info.php?madh=<?=$order['madh']?>">Xem chi tiết</a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="2"><b>TỔNG DOANH THU: </b></td>
-                    <td class="text-end"><b><?=number_format($tongdanhthu) ?> đ</b></td>
-                </tr>
+                <td class="text-end"><b><?=number_format($tongdanhthu) ?> đ</b></td>
+            </tr>
         </tfoot>
     <?php elseif (isset($phone)) : ?>
         <thead>
@@ -124,7 +123,7 @@ $tongdanhthu = 0;
                 <th>Mã sản phẩm</th>
                 <th>Tên sản phẩm</th>
                 <th>Giá</th>
-                <th>Số lượng đã bán</th>
+                <th>Đã bán</th>
                 <th class="text-end">Thành tiền</th>
             </tr>
         </thead>
@@ -143,15 +142,15 @@ $tongdanhthu = 0;
         <tfoot>
             <tr>
                 <td colspan="4"><b>TỔNG DOANH THU: </b></td>
-                    <td class="text-end"><b><?=number_format($tongdanhthu) ?> đ</b></td>
-                </tr>
+                <td class="text-end"><b><?=number_format($tongdanhthu) ?> đ</b></td>
+            </tr>
         </tfoot>
     <?php elseif (isset($thuonghieu)) : ?>
         <thead>
             <tr>
                 <th>Mã thương hiệu</th>
                 <th>Tên thương hiệu</th>
-                <th>Số lượng bán được</th>
+                <th>Đã bán</th>
                 <th class="text-end">Tổng tiền</th>
             </tr>
         </thead>
@@ -169,8 +168,8 @@ $tongdanhthu = 0;
         <tfoot>
             <tr>
                 <td colspan="3"><b>TỔNG DOANH THU: </b></td>
-                    <td class="text-end"><b><?=number_format($tongdanhthu) ?> đ</b></td>
-                </tr>
+                <td class="text-end"><b><?=number_format($tongdanhthu) ?> đ</b></td>
+            </tr>
         </tfoot>
     <?php endif; ?>
 </table>

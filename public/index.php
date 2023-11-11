@@ -196,7 +196,7 @@ include_once __DIR__ . '/../general/header.php';
                             <input type="hidden" name="masp" value="<?= $htmlspecialchars($col["masp"]); ?>">
                             <img class="py-2 item-img img-fluid text-center" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
                             </div>
-                            <p class="fs-7 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
+                            <p class="fs-5 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
                             <p class="item-prices text-danger fs-4"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
                             <p>Đánh giá: <?=$trungbinh?>/5</p>
                             <?php if(isset($_SESSION['user']) && $_SESSION['user'] == "admin") : ?>
@@ -206,14 +206,14 @@ include_once __DIR__ . '/../general/header.php';
                                     </div>
                                     <form class="form-inline col-sm" action="delete.php" method="POST">
                                             <input type="hidden" name="masp" value="<?= $col['masp'] ?>">
-                                            <button type="submit" class="btn btn-xs btn-danger" name="delete">
+                                            <button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm" name="delete">
                                                 Xóa
                                             </button>
                                     </form>
                                 </div>   
                             <?php endif; ?>
                             <?php if($col['tonkho'] == 0 ) : ?>
-                                <p>Đã hết hàng</p>
+                                <p class="text-danger">Đã hết hàng</p>
                             <?php else : ?>
                                 <p>Còn lại: <?=$col['tonkho']; ?></p>
                             <?php endif; ?>
@@ -226,20 +226,20 @@ include_once __DIR__ . '/../general/header.php';
             </div>
             <?php endfor; ?>
         </div>
-        <div id="delete-confirm" class="modal fade" tabindex="-1">
+        <div class="modal fade" id="delete-confirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Xác nhận xóa sản phẩm</h4>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span>&times;</span>
-                        </button>
-                    </div>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
                     <div class="modal-body">Bạn có muốn xóa sản phẩm này không?</div>
-                    <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-danger" id="delete">Xóa</button>
-                        <button type="button" data-dismiss="modal" class="btn btn-default">Trở về</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="button" class="btn btn-danger" id="delete">Xóa</button>
+                </div>
                 </div>
             </div>
         </div>

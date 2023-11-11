@@ -50,8 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         $stmt_delete = $pdo->prepare($query_cart);
         $stmt_delete->execute([$_SESSION['user']]);
     }
-    header('location: index.php');
-    exit();
 }
 if(isset($_GET['choxacnhan']))
 {
@@ -83,7 +81,7 @@ elseif (isset($_GET['dagiao']))
 }
 else
 {
-    $sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt where username=?';
+    $sql = 'SELECT * from donhang d join trangthai t on d.trangthaidh=t.matt where username=? order by d.trangthaidh';
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$_SESSION['user']]);
     $orders = $stmt->fetchAll();
