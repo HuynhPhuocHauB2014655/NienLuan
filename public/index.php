@@ -113,53 +113,51 @@ include_once __DIR__ . '/../general/header.php';
 ?>
 <body>
 <?php include_once __DIR__ . '/../general/nav.php' ?>
-        <h3 class="text-center py-3 border text-info"><?= $msg ?></h3>
-        <div class="mx-3">
-            <form method="post" class="mb-3">
-                <div class="row">
-                    <select class="col-sm form-select" name="math" id="math">
-                        <option value="" selected>Hãng</option>
-                        <?php foreach ($th as $th): ?>
-                            <option value="<?=$th['math']?>"><?=$th['tenth']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <select class="col-sm form-select" name="magia" id="magia">
-                        <option value="" selected>Giá</option>
-                        <?php foreach ($pkgia as $pkgia): ?>
-                            <option value="<?=$pkgia['magia']?>"><?=$pkgia['noidung']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <select class="col-sm form-select" name="idRAM" id="idRAM">
-                        <option value="" selected>RAM</option>
-                        <?php foreach ($ram as $ram): ?>
-                            <option value="<?=$ram['idRAM']?>"><?=$ram['noidungRAM']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <select class="col-sm form-select" name="idROM" id="idROM">
-                        <option value="" selected>ROM</option>
-                        <?php foreach ($rom as $rom): ?>
-                            <option value="<?=$rom['idROM']?>"><?=$rom['noidungROM']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <select class="col-sm form-select" name="manc" id="manc">
-                        <option value="" selected>Nhu cầu</option>
-                        <?php foreach ($nhucau as $nhucau): ?>
-                            <option value="<?=$nhucau['manc']?>"><?=$nhucau['noidungnc']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <select class="col-sm form-control form-select" name="matn" id="matn">
-                        <option value="" selected>Tính năng đặc biệt</option>
-                        <?php foreach ($tinnang as $tinnang): ?>
-                            <option value="<?=$tinnang['matn']?>"><?=$tinnang['noidungtn']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <div class="col-sm">
-                    <button type="submit" class="btn btn-primary">Lọc</button>
-                    </div>
-                </div>  
-            </form>
-        </div>
-        <div>
+<div class="mx-3">
+    <form method="post" class="mb-3">
+        <div class="row">
+            <select class="col-sm form-select" name="math" id="math">
+                <option value="" selected>Hãng</option>
+                <?php foreach ($th as $th): ?>
+                    <option value="<?=$th['math']?>"><?=$th['tenth']; ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select class="col-sm form-select" name="magia" id="magia">
+                <option value="" selected>Giá</option>
+                <?php foreach ($pkgia as $pkgia): ?>
+                    <option value="<?=$pkgia['magia']?>"><?=$pkgia['noidung']; ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select class="col-sm form-select" name="idRAM" id="idRAM">
+                <option value="" selected>RAM</option>
+                <?php foreach ($ram as $ram): ?>
+                    <option value="<?=$ram['idRAM']?>"><?=$ram['noidungRAM']; ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select class="col-sm form-select" name="idROM" id="idROM">
+                <option value="" selected>ROM</option>
+                <?php foreach ($rom as $rom): ?>
+                    <option value="<?=$rom['idROM']?>"><?=$rom['noidungROM']; ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select class="col-sm form-select" name="manc" id="manc">
+                <option value="" selected>Nhu cầu</option>
+                <?php foreach ($nhucau as $nhucau): ?>
+                    <option value="<?=$nhucau['manc']?>"><?=$nhucau['noidungnc']; ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select class="col-sm form-control form-select" name="matn" id="matn">
+                <option value="" selected>Tính năng đặc biệt</option>
+                <?php foreach ($tinnang as $tinnang): ?>
+                    <option value="<?=$tinnang['matn']?>"><?=$tinnang['noidungtn']; ?></option>
+                <?php endforeach; ?>
+            </select>
+            <div class="col-sm">
+            <button type="submit" class="btn btn-primary">Lọc</button>
+            </div>
+        </div>  
+    </form>
+</div>
             <?php $n = ceil(count($rs)/4); 
             if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
@@ -172,60 +170,59 @@ include_once __DIR__ . '/../general/header.php';
             }
             ?>
             <?php for ($j=0;$j<$n;$j++): ?>
-            <div class="row">
-                <?php for ($k=0;$k<4;$k++) : ?>
-                    <?php $col = $stmt->fetch(); ?>
-                    <?php if($col) : ?>
-                    <div class="item col-xl col-md-6 col-12 border">
-                            <?php
-                                $trungbinh=0;
-                                $stmt_danhgia->execute([$col["masp"]]);
-                                $danhgia=$stmt_danhgia->fetchAll();
-                                if($danhgia) {
-                                    foreach ($danhgia as $s) {
-                                        $trungbinh+=$s["danhgia"];
-                                    }
-                                    $trungbinh = round($trungbinh / count($danhgia),1);
+        <div class="row mb-3">
+            <?php for ($k=0;$k<4;$k++) : ?>
+                <?php $col = $stmt->fetch(); ?>
+                <?php if($col) : ?>
+                <div class="item col-xl col-md-6 col-12 border">
+                        <?php
+                            $trungbinh=0;
+                            $stmt_danhgia->execute([$col["masp"]]);
+                            $danhgia=$stmt_danhgia->fetchAll();
+                            if($danhgia) {
+                                foreach ($danhgia as $s) {
+                                    $trungbinh+=$s["danhgia"];
                                 }
-                                else 
-                                {
-                                    $trungbinh = 5;
-                                }
-                            ?>
-                            <div class="d-flex justify-content-center">
-                            <input type="hidden" name="masp" value="<?= $htmlspecialchars($col["masp"]); ?>">
-                            <img class="py-2 item-img img-fluid text-center" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
-                            </div>
-                            <p class="fs-5 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
-                            <p class="item-prices text-danger fs-4"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
-                            <p>Đánh giá: <?=$trungbinh?>/5</p>
-                            <?php if(isset($_SESSION['user']) && $_SESSION['user'] == "admin") : ?>
-                                <div class="row mb-2">
-                                    <div class="col-sm">
-                                        <a href="edit.php?masp=<?=$col['masp'];?>" class="btn btn-primary">Sửa</a>
-                                    </div>
-                                    <form class="form-inline col-sm" action="delete.php" method="POST">
-                                            <input type="hidden" name="masp" value="<?= $col['masp'] ?>">
-                                            <button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm" name="delete">
-                                                Xóa
-                                            </button>
-                                    </form>
-                                </div>   
-                            <?php endif; ?>
-                            <?php if($col['tonkho'] == 0 ) : ?>
-                                <p class="text-danger">Đã hết hàng</p>
-                            <?php else : ?>
-                                <p>Còn lại: <?=$col['tonkho']; ?></p>
-                            <?php endif; ?>
-                            <p class="fst-italic">Bấm vào hình để xem chi tiết</p>
-                    </div>
-                <?php else : ?>
-                    <div class="item-empty col-xl col-md-6 col-12"></div>
-                <?php endif; ?>
-                <?php endfor; ?>   
-            </div>
-            <?php endfor; ?>
+                                $trungbinh = round($trungbinh / count($danhgia),1);
+                            }
+                            else 
+                            {
+                                $trungbinh = 5;
+                            }
+                        ?>
+                        <div class="d-flex justify-content-center">
+                        <input type="hidden" name="masp" value="<?= $htmlspecialchars($col["masp"]); ?>">
+                        <img class="py-2 item-img img-fluid text-center" style="max-height: 300px;" src="images/<?=$col['anh']?>" alt="">
+                        </div>
+                        <p class="fs-5 item-title"><?= $htmlspecialchars($col['tensp']); ?><p>
+                        <p class="item-prices text-danger fs-4"><?= $htmlspecialchars(number_format($col['gia'],0,",",".")); ?> đ</p>
+                        <p>Đánh giá: <?=$trungbinh?>/5</p>
+                        <?php if(isset($_SESSION['user']) && $_SESSION['user'] == "admin") : ?>
+                            <div class="row mb-2">
+                                <div class="col-sm">
+                                    <a href="edit.php?masp=<?=$col['masp'];?>" class="btn btn-primary">Sửa</a>
+                                </div>
+                                <form class="form-inline col-sm" action="delete.php" method="POST">
+                                        <input type="hidden" name="masp" value="<?= $col['masp'] ?>">
+                                        <button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm" name="delete">
+                                            Xóa
+                                        </button>
+                                </form>
+                            </div>   
+                        <?php endif; ?>
+                        <?php if($col['tonkho'] == 0 ) : ?>
+                            <p class="text-danger">Đã hết hàng</p>
+                        <?php else : ?>
+                            <p>Còn lại: <?=$col['tonkho']; ?></p>
+                        <?php endif; ?>
+                        <p class="fst-italic">Bấm vào hình để xem chi tiết</p>
+                </div>
+            <?php else : ?>
+                <div class="item-empty col-xl col-md-6 col-12"></div>
+            <?php endif; ?>
+            <?php endfor; ?>   
         </div>
+            <?php endfor; ?>
         <div class="modal fade" id="delete-confirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
