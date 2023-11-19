@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         $query_cart = 'DELETE from giohang where magh=?';
         $stmt_delete = $pdo->prepare($query_cart);
         $stmt_delete->execute([$_SESSION['user']]);
+        header("location: order.php");
     }
 }
 if(isset($_GET['choxacnhan']))

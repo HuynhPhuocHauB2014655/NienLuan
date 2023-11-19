@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
 $query = 'SELECT * from dienthoai where tensp like "%"?"%"';
-$msg = 'Kết quả tìm kiếm';
+$msg = 'Kết quả tìm kiếm từ khóa "' . $_POST['search'] .'"';
 try {
     $stmt = $pdo->prepare($query);
     $stmt->execute([$_POST['search']]);

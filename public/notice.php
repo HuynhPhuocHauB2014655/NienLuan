@@ -76,10 +76,12 @@ include_once __DIR__ . '/../general/nav.php';
                             <input type="hidden" name="trangthaitb" value="<?=$rs['trangthaitb'];?>">
                             <input type="hidden" name="idthongbao" value="<?=$rs['idthongbao']?>">
                         </form>
-                        <form method="post" action="delete-notice.php">
+                        <?php if($_SESSION['user'] != 'admin') : ?>
+                            <form method="post" action="delete-notice.php">
                             <input type="hidden" name="delete" value="<?= $rs['idthongbao'] ?>">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Xóa</button>
                         </form>
+                        <?php endif; ?>
                     </div>
                     <p class="noidung" style="display:none;">
                         <br><?= $rs['noidung']; ?>
