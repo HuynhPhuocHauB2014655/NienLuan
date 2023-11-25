@@ -4,18 +4,24 @@ require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
 
 if(isset($_SESSION['user']) && ($_SERVER['REQUEST_METHOD'] == 'POST')){
-    $query = 'select password from khachhang where username=?';
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([$_SESSION['user']]);
-    $rs = $stmt->fetch();
-    if($rs['password'] == $_POST['password']){
-
-        $query = 'update khachhang set password=? where username=?';
+    try {
+        $query = 'select password from khachhang where username=?';
         $stmt = $pdo->prepare($query);
-        $stmt->execute([$_POST['newpassword'], $_SESSION['user']]);
+        $stmt->execute([$_SESSION['user']]);
+        $rs = $stmt->fetch();
+        if($rs['password'] == $_POST['password']){
 
-        $_SESSION['msg'] = 'Đổi mật khẩu thành công';
-        header('Location: user.php');
+            $query = 'update khachhang set password=? where username=?';
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([$_POST['newpassword'], $_SESSION['user']]);
+
+            $_SESSION['msg'] = 'Đổi mật khẩu thành công';
+            header('Location: user.php');
+            exit();
+        }
+    } catch (PDOException $e)
+    {
+        echo "Lỗi truy vấn dữ liệu ";
     }
 }
 

@@ -21,21 +21,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-    $upload_img= handle_phone_img_upload();
-    $old_img = $_POST['old-img'];
-    $query = 'UPDATE dienthoai SET tensp=?,ngayramat=?,math=?,magia=?,maRAM=?,maROM=?,cpu=?,hedieuhanh=?,camera=?,gia=?,tonkho=?,
-                                   congketnoi=?,jacktainghe=?,loaipin=?,dungluongpin=?,thietke=?,kichthuoc=?,anh=? 
-                               where masp=?';
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([$_POST['tensp'],$_POST['ngayramat'],$_POST['math'],$_POST['magia'],
-    $_POST['maRAM'],$_POST['maROM'],$_POST['cpu'],$_POST['hedieuhanh'],$_POST['camera'],$_POST['gia'],$_POST['tonkho'],
-    $_POST['congketnoi'],$_POST['jacktainghe'],$_POST['loaipin'],$_POST['dungluongpin'],$_POST['thietke'],$_POST['kichthuoc'],$upload_img ? $upload_img : $old_img,$_POST['masp']]);
-    $_SESSION['msg'] = 'Cập nhật thông tin sản phẩm thành công!';
-    if ($upload_img && $old_img) {
-        remove_avater_file($old_img);
+    try {
+        $upload_img= handle_phone_img_upload();
+        $old_img = $_POST['old-img'];
+        $query = 'UPDATE dienthoai SET tensp=?,ngayramat=?,math=?,magia=?,maRAM=?,maROM=?,cpu=?,hedieuhanh=?,camera=?,gia=?,tonkho=?,
+                                    congketnoi=?,jacktainghe=?,loaipin=?,dungluongpin=?,thietke=?,kichthuoc=?,anh=? 
+                                where masp=?';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$_POST['tensp'],$_POST['ngayramat'],$_POST['math'],$_POST['magia'],
+        $_POST['maRAM'],$_POST['maROM'],$_POST['cpu'],$_POST['hedieuhanh'],$_POST['camera'],$_POST['gia'],$_POST['tonkho'],
+        $_POST['congketnoi'],$_POST['jacktainghe'],$_POST['loaipin'],$_POST['dungluongpin'],$_POST['thietke'],$_POST['kichthuoc'],$upload_img ? $upload_img : $old_img,$_POST['masp']]);
+        $_SESSION['msg'] = 'Cập nhật thông tin sản phẩm thành công!';
+        if ($upload_img && $old_img) {
+            remove_avater_file($old_img);
+        }
+        header('Location: index.php');
+        exit();
+    } catch (PDOException $e)
+    {
+        echo "Lỗi truy vấn dữ liệu ";
     }
-    header('Location: index.php');
-    exit();
 }
 
 ?>

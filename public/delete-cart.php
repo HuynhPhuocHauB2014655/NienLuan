@@ -13,15 +13,20 @@ else{
 $rs = $stmt->fetch();
 if($rs)
 {
-    $query = 'DELETE from giohang where magh=? and masp=?';
-    $stmt = $pdo->prepare($query);
-    if(isset($_SESSION['user'])) {
-        $stmt->execute([$_SESSION['user'], $_GET['masp']]);
+    try {
+        $query = 'DELETE from giohang where magh=? and masp=?';
+        $stmt = $pdo->prepare($query);
+        if(isset($_SESSION['user'])) {
+            $stmt->execute([$_SESSION['user'], $_GET['masp']]);
+        }
+        else{
+            $stmt->execute([$_SESSION['guest'], $_GET['masp']]);
+        }
+        $_SESSION['msg'] = "Xóa sản phẩm thành công!";
+        header('Location:' . $_SERVER['HTTP_REFERER']);
+        exit();
+    } catch (PDOException $e)
+    {
+        echo "Lỗi truy vấn dữ liệu 1";
     }
-    else{
-        $stmt->execute([$_SESSION['guest'], $_GET['masp']]);
-    }
-    $_SESSION['msg'] = "Xóa sản phẩm thành công!";
-    header('Location:' . $_SERVER['HTTP_REFERER']);
-    exit();
 }

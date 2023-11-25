@@ -21,6 +21,7 @@
                 $stmt1->execute([$_POST['username'],$_POST['password'],$_POST['hoten'],$_POST['ngaysinh'],$_POST['sdt'],$_POST['diachi'],"",$_POST['username']]);
                 $_SESSION['flash_message'] = '<h3 class="text-center bg-success mt-2 py-1">Bạn đã đăng ký thành công</h3>';
                 header('location: login.php');
+                exit();
             } catch (PDOException $e)
             {
                 echo "Lỗi truy vấn dữ liệu 1";

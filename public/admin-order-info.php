@@ -9,18 +9,23 @@ if($_SESSION['user'] != 'admin')
     exit();
 }
 if($_SERVER['REQUEST_METHOD'] == 'GET')
-{
-    $query_order_info = 'SELECT * from donhang d join danhsachsanpham ds on d.madh=ds.madh 
-    join dienthoai dt on dt.masp=ds.masp join trangthai t on t.matt=d.trangthaidh
-    where d.madh=?';
-    $stmt_order_info = $pdo->prepare($query_order_info);
-    $stmt_order_info->execute([$_GET['madh']]);
-    $row_order_info = $stmt_order_info->fetchAll();
+{   
+    try {
+        $query_order_info = 'SELECT * from donhang d join danhsachsanpham ds on d.madh=ds.madh 
+        join dienthoai dt on dt.masp=ds.masp join trangthai t on t.matt=d.trangthaidh
+        where d.madh=?';
+        $stmt_order_info = $pdo->prepare($query_order_info);
+        $stmt_order_info->execute([$_GET['madh']]);
+        $row_order_info = $stmt_order_info->fetchAll();
 
-    $query_user = 'SELECT * from khachhang where username=?';
-    $stmt_user = $pdo->prepare($query_user);
-    $stmt_user->execute([$row_order_info[0]['username']]);
-    $user = $stmt_user->fetch();
+        $query_user = 'SELECT * from khachhang where username=?';
+        $stmt_user = $pdo->prepare($query_user);
+        $stmt_user->execute([$row_order_info[0]['username']]);
+        $user = $stmt_user->fetch();
+    } catch (PDOException $e)
+    {
+        echo "Lỗi truy vấn dữ liệu ";
+    }
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST')
 {   

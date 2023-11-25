@@ -6,16 +6,21 @@ include_once __DIR__ . '/../general/header.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $query = 'update khachhang
-              set hoten=?, ngaysinh=?, sodienthoai=?, diachi=?
-              where username=?';
-    
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([$_POST['hoten'], $_POST['ngaysinh'], $_POST['sodienthoai'], $_POST['diachi'], $_POST['user']]);
+    try {
+        $query = 'update khachhang
+                set hoten=?, ngaysinh=?, sodienthoai=?, diachi=?
+                where username=?';
+        
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$_POST['hoten'], $_POST['ngaysinh'], $_POST['sodienthoai'], $_POST['diachi'], $_POST['user']]);
 
-    $_SESSION['msg'] = 'Đã cập nhật thông tin khách hàng thành công';
-    header('Location: user.php');
-
+        $_SESSION['msg'] = 'Đã cập nhật thông tin khách hàng thành công';
+        header('Location: user.php');
+        exit();
+    } catch (PDOException $e)
+    {
+        echo "Lỗi truy vấn dữ liệu ";
+    }
 }
 
 

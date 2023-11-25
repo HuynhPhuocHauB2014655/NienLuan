@@ -22,6 +22,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $_SESSION['msg'] = 'Chúng tôi đã ghi nhận ý kiên của bạn.';
     header('Location: support.php');
+    exit();
 }
 
 include_once __DIR__ . '/../general/nav.php';

@@ -3,11 +3,16 @@ define('TITLE', 'Giỏ hàng');
 require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
 $tong = 0;
-$query = 'SELECT * from giohang g join dienthoai d on g.masp=d.masp where magh=?';
-$stmt=$pdo->prepare($query);
-$stmt->execute([$_GET['username']]);
-$rs = $stmt->fetchAll();
-$sold_out = false;
+try {
+    $query = 'SELECT * from giohang g join dienthoai d on g.masp=d.masp where magh=?';
+    $stmt=$pdo->prepare($query);
+    $stmt->execute([$_GET['username']]);
+    $rs = $stmt->fetchAll();
+    $sold_out = false;
+} catch (PDOException $e)
+{
+    echo "Lỗi truy vấn dữ liệu 1";
+}
 ?>
 
 <?php include_once __DIR__ . '/../general/nav.php' ?>

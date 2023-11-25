@@ -1,31 +1,39 @@
 <?php
 require_once __DIR__ . '/../general/connect.php';
 include_once __DIR__ . '/../general/header.php';
+require_once __DIR__ . '/../general/helpers.php';
 define('TITLE', 'Thêm sản phẩm');
 
 if($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-    $query = 'INSERT INTO dienthoai value (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([$_POST['masp'],$_POST['tensp'],$_POST['ngayramat'],$_POST['math'],$_POST['magia'],
-    $_POST['maRAM'],$_POST['maROM'],$_POST['CPU'],$_POST['hedieuhanh'],$_POST['camera'],$_POST['gia'],$_POST['tonkho'],
-    $_POST['congketnoi'],$_POST['jacktainghe'],$_POST['loaipin'],$_POST['dungluongpin'],$_POST['thietke'],$_POST['kichthuoc'],$_POST['anh']]);
-    $_SESSION['msg'] = 'Thêm sản phẩm thành công!';
-    header('Location: index.php');
+    $upload_img = handle_phone_img_upload();
+    try {
+        $query = 'INSERT INTO dienthoai value (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$_POST['masp'],$_POST['tensp'],$_POST['ngayramat'],$_POST['math'],$_POST['magia'],
+        $_POST['maRAM'],$_POST['maROM'],$_POST['CPU'],$_POST['hedieuhanh'],$_POST['camera'],$_POST['gia'],$_POST['tonkho'],
+        $_POST['congketnoi'],$_POST['jacktainghe'],$_POST['loaipin'],$_POST['dungluongpin'],$_POST['thietke'],$_POST['kichthuoc'],$upload_img ? $upload_img : $upload_img]);
+        $_SESSION['msg'] = 'Thêm sản phẩm thành công!';
+        header('Location: index.php');
+        exit();
+    } catch (PDOException $e)
+    {
+        echo "Lỗi truy vấn dữ liệu ";
+    }
 }
 ?>
 <?php include_once __DIR__ . '/../general/nav.php' ?>
 <div class="container">
     <h3 class="text-center border border-3 border-primary py-3 m-3 rounded">Thêm sản phẩm</h3>
     <div class="d-flex justify-content-center">
-        <form method="post" class="row border border-3 p-3 my-5 rounded">
+        <form method="post" enctype="multipart/form-data" class="row border border-3 p-3 my-5 rounded">
             <div class="col-sm">
             <label for="masp" class="form-label">Mã điện thoại: </label><br>
             <input type="text" class="form-control" name="masp" ><br/>
             <label for="tensp" class="form-label">Tên điện thoại: </label><br>
             <input type="text" class="form-control" name="tensp" ><br/>
-            <label class="form-label" for="anh">Tên Ảnh: </label><br />
-            <input class="form-control" type="text" name="anh" "><br>
+            <label class="form-label" for="phone_img">Ảnh: </label><br />
+            <input type="file" class="form-control"  name="phone_img" id="phone_img"><br>
             <label for="ngayramat" class="form-label">Ngày ra mắt: </label><br>
             <input type="text" class="form-control" name="ngayramat"><br/>
             <label for="magia" class="form-label">Phân khúc giá:</label><br>
